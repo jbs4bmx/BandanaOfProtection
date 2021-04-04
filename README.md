@@ -1,8 +1,10 @@
-# Bandana-OF-Protection
-Modification of the in-game item "Lower Half-Mask" for SPT-AKI
-
+# Bandana of Protection
 
 This mod adds a new version of the bandana (half-mask) and adds armor protection for body parts based on how the configuration file is edited.
+
+>Author  : jbs4bmx
+
+>Version : 2.0.0 (Supports SPT-AKI B8)
 
 
 

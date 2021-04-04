@@ -1,12 +1,11 @@
 /* BoP.js
- * license: The Unlicense
- * copyright: jbs4bmx
- * website: https://www.guilded.gg/senkospub
- * name: BandOfProtection
- * description: Extra full body armor provided by the bandana.
- * version: 1.0.1
- * author(s):
- * - jbs4bmx
+       license: The Unlicense
+     copyright: jbs4bmx
+       website: https://www.guilded.gg/senkospub
+          name: BandOfProtection
+   description: Extra full body armor provided by the bandana.
+       version: 2.0.0
+     author(s): jbs4bmx
 */
 
 class Mod
@@ -14,26 +13,26 @@ class Mod
     constructor()
     {
         this.mod = "jbs4bmx-BandanaOfProtection";
-        common_f.logger.logInfo(`Loading: ${this.mod}`);
-        const filepath = `${core_f.packager.getModPath(this.mod)}config/config.json`;
-        const config = common_f.json.deserialize(common_f.vfs.readFile(filepath));
+        Logger.log(`Loading: ${this.mod}`);
+        const filepath = `${ModLoader.getModPath(this.mod)}config/config.json`;
+        const config = JsonUtil.deserialize(VFS.readFile(filepath));
         if (config.other.HideWarningMessage === false) {
-            common_f.logger.log(`[BandanaOfProtection Mod]`, "white", "red");
-            common_f.logger.log(`Shaka, when the walls fell. Did you read the configuration file?`, "yellow");
-            common_f.logger.log(`To remove this warning, change the final entry of the config file to true.`,"yellow");
-            common_f.logger.log(`[BandanaOfProtection Mod]`, "white", "red");
+            Logger.log(`[BandanaOfProtection Mod]`, "white", "red");
+            Logger.log(`Shaka, when the walls fell. Did you read the configuration file?`, "yellow");
+            Logger.log(`To remove this warning, change the final entry of the config file to true.`,"yellow");
+            Logger.log(`[BandanaOfProtection Mod]`, "white", "red");
         }
-        core_f.packager.onLoad[this.mod] = this.load.bind(this);
+        ModLoader.onLoad[this.mod] = this.load.bind(this);
     }
 
     load()
     {
         // Config
-        const filepath = `${core_f.packager.getModPath(this.mod)}config/config.json`;
-        const config = common_f.json.deserialize(common_f.vfs.readFile(filepath));
+        const filepath = `${ModLoader.getModPath(this.mod)}config/config.json`;
+        const config = JsonUtil.deserialize(VFS.readFile(filepath));
 
         // Database
-        const database = database_f.server.tables;
+        const database = DatabaseServer.tables;
         const items = database.templates.items;
         const handbook = database.templates.handbook.Items;
         const global = database.locales.global;
@@ -52,9 +51,11 @@ class Mod
         var itemLongName = "Bandana of Protection";
         var itemShortName = "BoP";
         var itemDescription = "A bandana that provides advanced protection for the weak at heart. This bandana provides the extra courage needed by the cowardly lions of Tarkov. You could escape by following the blood stained roads out of Tarkov... or you could just plow your way through scavs and PMCs while wearing this.";
-        var itemTrader = "5ac3b934156ae10c4430e83c"; //Ragman
+        //Ragman
+        var itemTrader = "5ac3b934156ae10c4430e83c";
         var itemTraderPrice = config.Resources.traderPrice;
-        var itemTraderCurrency = "5449016a4bdc2d6f028b456f"; //Roubles
+        //Roubles
+        var itemTraderCurrency = "5449016a4bdc2d6f028b456f";
         var itemTraderLV = config.Resources.minTraderLevel;
 
         //pass info to functions below
@@ -163,7 +164,7 @@ class Mod
         items[itemId]._props.ArmorMaterial = "UHMWPE";
 
         //Report to Console
-        common_f.logger.logInfo("Bandana of Protection Mod: Cached Successfully");
+        Logger.log("Bandana of Protection Mod: Cached Successfully");
     }
 
     createItemHandbookEntry(i_id, i_category, i_fprice, i_handbook)
@@ -180,7 +181,7 @@ class Mod
 
     createItem(i_id, i_clone, i_path, i_lname, i_sname, i_desc, i_items, i_global)
     {
-        let item = common_f.json.clone(i_items[i_clone]);
+        let item = JsonUtil.clone(i_items[i_clone]);
         item._id = i_id;
         //add item back to database
         i_items[i_id] = item;
@@ -207,7 +208,7 @@ class Mod
                 "upd":
                 {
                     "UnlimitedCount": true,
-                    "StackObjectsCount": 999999
+                    "StackObjectsCount": 999999999
                 }
             }
         );
@@ -215,7 +216,7 @@ class Mod
         i_traders[i_trader].assort.barter_scheme[i_id] = [
             [
                 {
-                    "count": i_price,
+                    "CreditsPrice": i_price,
                     "_tpl": i_currency
                 }
             ]
