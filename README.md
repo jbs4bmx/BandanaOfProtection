@@ -4,7 +4,7 @@ This mod adds a new version of the bandana (half-mask) and adds armor protection
 
 >Author  : jbs4bmx
 
->Version : 2.0.0 (Supports SPT-AKI B8)
+>Version : 2.0.1 (Supports SPT-AKI B8)
 
 
 
@@ -15,9 +15,8 @@ You can specify the following configurations in the "\config\config.json" file.
    - No other values will be accepted for these.
    - Values other than true or false will default to false.
 2. "Resources" are the property values represented by whole numbers. You can input any value from 1 to 9999999.
-   - If you input 0 for any of the values, the mod will default to 1.
-   - If you input higher than 9999999, it will default to 9999999. (That is a max of 7 nines.)
-   - Negative numbers will also default to 1.
+   - If you input values less than 1 or greater than 9999999 for repair cost, durability, or prices, it will default to 1.
+   - If you input a value less than 1 or greater than 4 for the Trader level requirement, it will default to 4.
 
 ```
 {

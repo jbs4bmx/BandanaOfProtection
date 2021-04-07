@@ -4,7 +4,7 @@
        website: https://www.guilded.gg/senkospub
           name: BandOfProtection
    description: Extra full body armor provided by the bandana.
-       version: 2.0.0
+       version: 2.0.1
      author(s): jbs4bmx
 */
 
@@ -57,6 +57,45 @@ class Mod
         //Roubles
         var itemTraderCurrency = "5449016a4bdc2d6f028b456f";
         var itemTraderLV = config.Resources.minTraderLevel;
+        var itemRepairable = config.Resources.RepairCost;
+        var itemDurable = config.Resources.Durability;
+        var itemMaxDurable = config.Resources.MaxDurability;
+
+        if (typeof itemFleaPrice === "number") {
+            if ((itemFleaPrice < 1)||(itemFleaPrice > 9999999)) {itemFleaPrice = 1}
+        } else {
+            itemFleaPrice = 1;
+        }
+
+        if (typeof itemTraderPrice === "number") {
+            if ((itemTraderPrice < 1)||(itemTraderPrice > 9999999)) {itemTraderPrice = 1}
+        } else {
+            itemTraderPrice = 1;
+        }
+
+        if (typeof itemTraderLV === "number") {
+            if ((itemTraderLV < 1)||(itemTraderLV > 4)) {itemTraderLV = 4}
+        } else {
+            itemTraderLV = 4;
+        }
+
+        if (typeof itemRepairable === "number") {
+            if ((itemRepairable < 1)||(itemRepairable > 9999999)) {itemRepairable = 1}
+        } else {
+            itemRepairable = 1;
+        }
+
+        if (typeof itemDurable === "number") {
+            if ((itemDurable < 1)||(itemDurable > 9999999)) {itemDurable = 1}
+        } else {
+            itemDurable = 1;
+        }
+
+        if (typeof itemMaxDurable === "number") {
+            if ((itemMaxDurable < 1)||(itemMaxDurable > 9999999)) {itemMaxDurable = 1}
+        } else {
+            itemMaxDurable = 1;
+        }
 
         //pass info to functions below
         this.createItemHandbookEntry(itemId, itemCategory, itemFleaPrice, handbook);
@@ -152,13 +191,17 @@ class Mod
         }
 
         //change item properties
-        items[itemId]._props.RepairCost = config.Resources.RepairCost;
-        items[itemId]._props.Durability = config.Resources.Durability;
-        items[itemId]._props.MaxDurability = config.Resources.Durability;
+        items[itemId]._props.CreditsPrice = itemTraderPrice;
+        items[itemId]._props.IsUnsaleable = false;
+        items[itemId]._props.IsUnbuyable = false;
+        items[itemId]._props.IsUngivable = false;
+        items[itemId]._props.CanSellOnRagfair = true;
+        items[itemId]._props.CanRequireOnRagfair = true;
+        items[itemId]._props.RepairCost = itemRepairable;
+        items[itemId]._props.Durability = itemDurable;
+        items[itemId]._props.MaxDurability = itemMaxDurable;
         items[itemId]._props.armorClass = 10;
-        //items[itemId]._props.armorZone = ["Head", "LeftArm", "RightArm", "Chest", "Stomach", "LeftLeg", "RightLeg"];
         items[itemId]._props.armorZone = armor;
-        //items[itemId]._props.headSegments = ["Top","Nape","Ears","Eyes","Jaws"];
         items[itemId]._props.headSegments = segments;
         items[itemId]._props.MaterialType = "BodyArmor";
         items[itemId]._props.ArmorMaterial = "UHMWPE";
@@ -216,7 +259,7 @@ class Mod
         i_traders[i_trader].assort.barter_scheme[i_id] = [
             [
                 {
-                    "CreditsPrice": i_price,
+                    "count": i_price,
                     "_tpl": i_currency
                 }
             ]
