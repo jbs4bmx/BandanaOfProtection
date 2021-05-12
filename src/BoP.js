@@ -13,14 +13,14 @@ class Mod
     constructor()
     {
         this.mod = "jbs4bmx-BandanaOfProtection";
-        Logger.log(`Loading: ${this.mod}`);
-        const filepath = `${ModLoader.getModPath(this.mod)}config/config.json`;
-        const config = JsonUtil.deserialize(VFS.readFile(filepath));
+        Logger.info(`Loading: ${this.mod}`);
+        const configFile = `${ModLoader.getModPath(this.mod)}config/config.json`;
+        const config = JsonUtil.deserialize(VFS.readFile(configFile));
         if (config.other.HideWarningMessage === false) {
-            Logger.log(`[BandanaOfProtection Mod]`, "white", "red");
-            Logger.log(`Shaka, when the walls fell. Did you read the configuration file?`, "yellow");
-            Logger.log(`To remove this warning, change the final entry of the config file to true.`,"yellow");
-            Logger.log(`[BandanaOfProtection Mod]`, "white", "red");
+            Logger.Log(`[BandanaOfProtection Mod]`, "white", "red");
+            Logger.Log(`Shaka, when the walls fell. Did you read the configuration file?`, "yellow");
+            Logger.Log(`To remove this warning, change the final entry of the config file to true.`,"yellow");
+            Logger.Log(`[BandanaOfProtection Mod]`, "white", "red");
         }
         ModLoader.onLoad[this.mod] = this.load.bind(this);
     }
@@ -28,8 +28,8 @@ class Mod
     load()
     {
         // Config
-        const filepath = `${ModLoader.getModPath(this.mod)}config/config.json`;
-        const config = JsonUtil.deserialize(VFS.readFile(filepath));
+        const configFile = `${ModLoader.getModPath(this.mod)}config/config.json`;
+        const config = JsonUtil.deserialize(VFS.readFile(configFile));
 
         // Database
         const database = DatabaseServer.tables;
@@ -38,11 +38,11 @@ class Mod
         const global = database.locales.global;
         const traders = database.traders;
 
-        // get configuration values
+        // Set arrays for armor attributes
         let armor = [];
         let segments = [];
 
-        // Build Item Properties
+        // Build Item Properties, set trader to Ragman, and accept only Roubles.
         var itemId = "BandanaPro";
         var itemClone = "572b7fa524597762b747ce82";
         var itemCategory = "5b55501346f783093f2ec222";
@@ -51,58 +51,17 @@ class Mod
         var itemLongName = "Bandana of Protection";
         var itemShortName = "BoP";
         var itemDescription = "A bandana that provides advanced protection for the weak at heart. This bandana provides the extra courage needed by the cowardly lions of Tarkov. You could escape by following the blood stained roads out of Tarkov... or you could just plow your way through scavs and PMCs while wearing this.";
-        //Ragman
         var itemTrader = "5ac3b934156ae10c4430e83c";
         var itemTraderPrice = config.Resources.traderPrice;
-        //Roubles
         var itemTraderCurrency = "5449016a4bdc2d6f028b456f";
         var itemTraderLV = config.Resources.minTraderLevel;
-        var itemRepairable = config.Resources.RepairCost;
-        var itemDurable = config.Resources.Durability;
-        var itemMaxDurable = config.Resources.MaxDurability;
-
-        if (typeof itemFleaPrice === "number") {
-            if ((itemFleaPrice < 1)||(itemFleaPrice > 9999999)) {itemFleaPrice = 1}
-        } else {
-            itemFleaPrice = 1;
-        }
-
-        if (typeof itemTraderPrice === "number") {
-            if ((itemTraderPrice < 1)||(itemTraderPrice > 9999999)) {itemTraderPrice = 1}
-        } else {
-            itemTraderPrice = 1;
-        }
-
-        if (typeof itemTraderLV === "number") {
-            if ((itemTraderLV < 1)||(itemTraderLV > 4)) {itemTraderLV = 4}
-        } else {
-            itemTraderLV = 4;
-        }
-
-        if (typeof itemRepairable === "number") {
-            if ((itemRepairable < 1)||(itemRepairable > 9999999)) {itemRepairable = 1}
-        } else {
-            itemRepairable = 1;
-        }
-
-        if (typeof itemDurable === "number") {
-            if ((itemDurable < 1)||(itemDurable > 9999999)) {itemDurable = 1}
-        } else {
-            itemDurable = 1;
-        }
-
-        if (typeof itemMaxDurable === "number") {
-            if ((itemMaxDurable < 1)||(itemMaxDurable > 9999999)) {itemMaxDurable = 1}
-        } else {
-            itemMaxDurable = 1;
-        }
 
         //pass info to functions below
         this.createItemHandbookEntry(itemId, itemCategory, itemFleaPrice, handbook);
         this.createItem(itemId, itemClone, itemPrefabPath, itemLongName, itemShortName, itemDescription, items, global);
         this.createItemOffer(itemId, itemTrader, itemTraderPrice, itemTraderCurrency, itemTraderLV, traders);
 
-        //push body armor
+        //push body armor to array "armor"
         if (typeof config.MainArmor.Head === "boolean") {
             if (config.MainArmor.Head === true) {
                 armor.push("Head")
@@ -153,7 +112,7 @@ class Mod
             armor.push("RightLeg")
         }
 
-        //push head segments
+        //push head segments to array "segments"
         if (typeof config.HeadAreas.Top === "boolean") {
             if (config.HeadAreas.Top === true) {
                 segments.push("Top")
@@ -192,14 +151,9 @@ class Mod
 
         //change item properties
         items[itemId]._props.CreditsPrice = itemTraderPrice;
-        items[itemId]._props.IsUnsaleable = false;
-        items[itemId]._props.IsUnbuyable = false;
-        items[itemId]._props.IsUngivable = false;
-        items[itemId]._props.CanSellOnRagfair = true;
-        items[itemId]._props.CanRequireOnRagfair = true;
-        items[itemId]._props.RepairCost = itemRepairable;
-        items[itemId]._props.Durability = itemDurable;
-        items[itemId]._props.MaxDurability = itemMaxDurable;
+        items[itemId]._props.RepairCost = config.Resources.RepairCost;
+        items[itemId]._props.Durability = config.Resources.Durability;
+        items[itemId]._props.MaxDurability = config.Resources.Durability;
         items[itemId]._props.armorClass = 10;
         items[itemId]._props.armorZone = armor;
         items[itemId]._props.headSegments = segments;
@@ -207,7 +161,7 @@ class Mod
         items[itemId]._props.ArmorMaterial = "UHMWPE";
 
         //Report to Console
-        Logger.log("Bandana of Protection Mod: Cached Successfully");
+        Logger.info("Bandana of Protection Mod: Cached Successfully");
     }
 
     createItemHandbookEntry(i_id, i_category, i_fprice, i_handbook)
@@ -259,7 +213,7 @@ class Mod
         i_traders[i_trader].assort.barter_scheme[i_id] = [
             [
                 {
-                    "count": i_price,
+                    "CreditsPrice": i_price,
                     "_tpl": i_currency
                 }
             ]
