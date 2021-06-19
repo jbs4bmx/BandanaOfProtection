@@ -4,7 +4,7 @@
        website: https://www.guilded.gg/senkospub
           name: BandOfProtection
    description: Extra full body armor provided by the bandana.
-       version: 2.0.2
+       version: 2.0.3
      author(s): jbs4bmx
 */
 
@@ -14,9 +14,8 @@ class Mod
     {
         this.mod = "jbs4bmx-BandanaOfProtection";
         Logger.info(`Loading: ${this.mod}`);
-        const configFile = `${ModLoader.getModPath(this.mod)}config/config.json`;
-        const config = JsonUtil.deserialize(VFS.readFile(configFile));
-        if (config.other.HideWarningMessage === false) {
+        const { other } = require('./config.json');
+        if (other.HideWarningMessage === false) {
             Logger.Log(`[BandanaOfProtection Mod]`, "white", "red");
             Logger.Log(`Shaka, when the walls fell. Did you read the configuration file?`, "yellow");
             Logger.Log(`To remove this warning, change the final entry of the config file to true.`,"yellow");
@@ -27,6 +26,9 @@ class Mod
 
     load()
     {
+        // Load config items
+        const { MainArmor, HeadAreas, Resources } = require('./config.json');
+
         // Config
         const configFile = `${ModLoader.getModPath(this.mod)}config/config.json`;
         const config = JsonUtil.deserialize(VFS.readFile(configFile));
@@ -46,66 +48,61 @@ class Mod
         var itemId = "BandanaPro";
         var itemClone = "572b7fa524597762b747ce82";
         var itemCategory = "5b55501346f783093f2ec222";
-        var itemFleaPrice = config.Resources.marketPrice;
+        var itemFleaPrice = Resources.marketPrice;
         var itemPrefabPath = "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle";
         var itemLongName = "Bandana of Protection";
         var itemShortName = "BoP";
         var itemDescription = "A bandana that provides advanced protection for the weak at heart. This bandana provides the extra courage needed by the cowardly lions of Tarkov. You could escape by following the blood stained roads out of Tarkov... or you could just plow your way through scavs and PMCs while wearing this.";
         var itemTrader = "5ac3b934156ae10c4430e83c";
-        var itemTraderPrice = config.Resources.traderPrice;
+        var itemTraderPrice = Resources.traderPrice;
         var itemTraderCurrency = "5449016a4bdc2d6f028b456f";
-        var itemTraderLV = config.Resources.minTraderLevel;
-
-        //pass info to functions below
-        this.createItemHandbookEntry(itemId, itemCategory, itemFleaPrice, handbook);
-        this.createItem(itemId, itemClone, itemPrefabPath, itemLongName, itemShortName, itemDescription, items, global);
-        this.createItemOffer(itemId, itemTrader, itemTraderPrice, itemTraderCurrency, itemTraderLV, traders);
+        var itemTraderLV = Resources.minTraderLevel;
 
         //push body armor to array "armor"
-        if (typeof config.MainArmor.Head === "boolean") {
-            if (config.MainArmor.Head === true) {
+        if (typeof MainArmor.Head === "boolean") {
+            if (MainArmor.Head === true) {
                 armor.push("Head")
             }
         } else {
             armor.push("Head")
         }
-        if (typeof config.MainArmor.Thorax === "boolean") {
-            if (config.MainArmor.Thorax === true) {
+        if (typeof MainArmor.Thorax === "boolean") {
+            if (MainArmor.Thorax === true) {
                 armor.push("Chest")
             }
         } else {
             armor.push("Chest")
         }
-        if (typeof config.MainArmor.Stomach === "boolean") {
-            if (config.MainArmor.Stomach === true) {
+        if (typeof MainArmor.Stomach === "boolean") {
+            if (MainArmor.Stomach === true) {
                 armor.push("Stomach")
             }
         } else {
             armor.push("Stomach")
         }
-        if (typeof config.MainArmor.LeftArm === "boolean") {
-            if (config.MainArmor.LeftArm === true) {
+        if (typeof MainArmor.LeftArm === "boolean") {
+            if (MainArmor.LeftArm === true) {
                 armor.push("LeftArm")
             }
         } else {
             armor.push("LeftArm")
         }
-        if (typeof config.MainArmor.RightArm === "boolean") {
-            if (config.MainArmor.RightArm === true) {
+        if (typeof MainArmor.RightArm === "boolean") {
+            if (MainArmor.RightArm === true) {
                 armor.push("RightArm")
             }
         } else {
             armor.push("RightArm")
         }
-        if (typeof config.MainArmor.LeftLeg === "boolean") {
-            if (config.MainArmor.LeftLeg === true) {
+        if (typeof MainArmor.LeftLeg === "boolean") {
+            if (MainArmor.LeftLeg === true) {
                 armor.push("LeftLeg")
             }
         } else {
             armor.push("LeftLeg")
         }
-        if (typeof config.MainArmor.RightLeg === "boolean") {
-            if (config.MainArmor.RightLeg === true) {
+        if (typeof MainArmor.RightLeg === "boolean") {
+            if (MainArmor.RightLeg === true) {
                 armor.push("RightLeg")
             }
         } else {
@@ -113,47 +110,52 @@ class Mod
         }
 
         //push head segments to array "segments"
-        if (typeof config.HeadAreas.Top === "boolean") {
-            if (config.HeadAreas.Top === true) {
+        if (typeof HeadAreas.Top === "boolean") {
+            if (HeadAreas.Top === true) {
                 segments.push("Top")
             }
         } else {
             segments.push("Top")
         }
-        if (typeof config.HeadAreas.Nape === "boolean") {
-            if (config.HeadAreas.Nape === true) {
+        if (typeof HeadAreas.Nape === "boolean") {
+            if (HeadAreas.Nape === true) {
                 segments.push("Nape")
             }
         } else {
             segments.push("Nape")
         }
-        if (typeof config.HeadAreas.Ears === "boolean") {
-            if (config.HeadAreas.Ears === true) {
+        if (typeof HeadAreas.Ears === "boolean") {
+            if (HeadAreas.Ears === true) {
                 segments.push("Ears")
             }
         } else {
             segments.push("Ears")
         }
-        if (typeof config.HeadAreas.Eyes === "boolean") {
-            if (config.HeadAreas.Eyes === true) {
+        if (typeof HeadAreas.Eyes === "boolean") {
+            if (HeadAreas.Eyes === true) {
                 segments.push("Eyes")
             }
         } else {
             segments.push("Eyes")
         }
-        if (typeof config.HeadAreas.Jaws === "boolean") {
-            if (config.HeadAreas.Jaws === true) {
+        if (typeof HeadAreas.Jaws === "boolean") {
+            if (HeadAreas.Jaws === true) {
                 segments.push("Jaws")
             }
         } else {
             segments.push("Jaws")
         }
 
+        //pass info to functions below
+        this.createItemHandbookEntry(itemId, itemCategory, itemFleaPrice, handbook);
+        this.createItem(itemId, itemClone, itemPrefabPath, itemLongName, itemShortName, itemDescription, items, global);
+        this.createItemOffer(itemId, itemTrader, itemTraderPrice, itemTraderCurrency, itemTraderLV, traders);
+
         //change item properties
         items[itemId]._props.CreditsPrice = itemTraderPrice;
-        items[itemId]._props.RepairCost = config.Resources.RepairCost;
-        items[itemId]._props.Durability = config.Resources.Durability;
-        items[itemId]._props.MaxDurability = config.Resources.Durability;
+        items[itemId]._props.RepairCost = Resources.RepairCost;
+        items[itemId]._props.Durability = Resources.Durability;
+        items[itemId]._props.MaxDurability = Resources.Durability;
         items[itemId]._props.armorClass = 10;
         items[itemId]._props.armorZone = armor;
         items[itemId]._props.headSegments = segments;
@@ -213,7 +215,7 @@ class Mod
         i_traders[i_trader].assort.barter_scheme[i_id] = [
             [
                 {
-                    "CreditsPrice": i_price,
+                    "count": i_price,
                     "_tpl": i_currency
                 }
             ]
