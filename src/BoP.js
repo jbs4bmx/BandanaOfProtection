@@ -16,10 +16,10 @@ class Mod
         Logger.info(`Loading: ${this.mod}`);
         const { other } = require('./config.json');
         if (other.HideWarningMessage === false) {
-            Logger.Log(`[BandanaOfProtection Mod]`, "white", "red");
+            Logger.Log(`[BoP Mod]`, "white", "red");
             Logger.Log(`Shaka, when the walls fell. Did you read the configuration file?`, "yellow");
             Logger.Log(`To remove this warning, change the final entry of the config file to true.`,"yellow");
-            Logger.Log(`[BandanaOfProtection Mod]`, "white", "red");
+            Logger.Log(`[BoP Mod]`, "white", "red");
         }
         ModLoader.onLoad[this.mod] = this.load.bind(this);
     }
@@ -65,6 +65,7 @@ class Mod
             }
         } else {
             armor.push("Head")
+            Logger.Log(`[BoP Mod] - Resource value Head is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof MainArmor.Thorax === "boolean") {
             if (MainArmor.Thorax === true) {
@@ -72,6 +73,7 @@ class Mod
             }
         } else {
             armor.push("Chest")
+            Logger.Log(`[BoP Mod] - Resource value Chest is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof MainArmor.Stomach === "boolean") {
             if (MainArmor.Stomach === true) {
@@ -79,6 +81,7 @@ class Mod
             }
         } else {
             armor.push("Stomach")
+            Logger.Log(`[BoP Mod] - Resource value Stomach is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof MainArmor.LeftArm === "boolean") {
             if (MainArmor.LeftArm === true) {
@@ -86,6 +89,7 @@ class Mod
             }
         } else {
             armor.push("LeftArm")
+            Logger.Log(`[BoP Mod] - Resource value LeftArm is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof MainArmor.RightArm === "boolean") {
             if (MainArmor.RightArm === true) {
@@ -93,6 +97,7 @@ class Mod
             }
         } else {
             armor.push("RightArm")
+            Logger.Log(`[BoP Mod] - Resource value RightArm is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof MainArmor.LeftLeg === "boolean") {
             if (MainArmor.LeftLeg === true) {
@@ -100,6 +105,7 @@ class Mod
             }
         } else {
             armor.push("LeftLeg")
+            Logger.Log(`[BoP Mod] - Resource value LeftLeg is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof MainArmor.RightLeg === "boolean") {
             if (MainArmor.RightLeg === true) {
@@ -107,6 +113,7 @@ class Mod
             }
         } else {
             armor.push("RightLeg")
+            Logger.Log(`[BoP Mod] - Resource value RightLeg is not a boolean. Defaulting to true.`, "yellow", "red");
         }
 
         //push head segments to array "segments"
@@ -116,6 +123,7 @@ class Mod
             }
         } else {
             segments.push("Top")
+            Logger.Log(`[BoP Mod] - Resource value Top is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof HeadAreas.Nape === "boolean") {
             if (HeadAreas.Nape === true) {
@@ -123,6 +131,7 @@ class Mod
             }
         } else {
             segments.push("Nape")
+            Logger.Log(`[BoP Mod] - Resource value Nape is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof HeadAreas.Ears === "boolean") {
             if (HeadAreas.Ears === true) {
@@ -130,6 +139,7 @@ class Mod
             }
         } else {
             segments.push("Ears")
+            Logger.Log(`[BoP Mod] - Resource value Ears is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof HeadAreas.Eyes === "boolean") {
             if (HeadAreas.Eyes === true) {
@@ -137,6 +147,7 @@ class Mod
             }
         } else {
             segments.push("Eyes")
+            Logger.Log(`[BoP Mod] - Resource value Eyes is not a boolean. Defaulting to true.`, "yellow", "red");
         }
         if (typeof HeadAreas.Jaws === "boolean") {
             if (HeadAreas.Jaws === true) {
@@ -144,7 +155,45 @@ class Mod
             }
         } else {
             segments.push("Jaws")
+            Logger.Log(`[BoP Mod] - Resource value Jaws is not a boolean. Defaulting to true.`, "yellow", "red");
         }
+
+        if (typeof Resources.RepairCost === "number") {
+            if ((Resources.RepairCost < 1) || (Resources.RepairCost > 9999999)) {
+                Resources.RepairCost = 100000
+            }
+        } else {
+            Logger.Log(`[BoP Mod] - Resource value RepairCost is not a number.`, "yellow", "red");
+        }
+        if (typeof Resources.Durability === "number") {
+            if ((Resources.Durability < 1) || (Resources.Durability > 9999999)) {
+                Resources.Durability = 100
+            }
+        } else {
+            Logger.Log(`[BoP Mod] - Resource value Durability is not a number.`, "yellow", "red");
+        }
+        if (typeof Resources.minTraderLevel === "number") {
+            if ((Resources.minTraderLevel < 1) || (Resources.minTraderLevel > 4)) {
+                Resources.minTraderLevel = 2
+            }
+        } else {
+            Logger.Log(`[BoP Mod] - Resource value minTraderLevel is not a number.`, "yellow", "red");
+        }
+        if (typeof Resources.marketPrice === "number") {
+            if ((Resources.marketPrice < 1) || (Resources.marketPrice > 9999999)) {
+                Resources.marketPrice = 100000
+            }
+        } else {
+            Logger.Log(`[BoP Mod] - Resource value marketPrice is not a number.`, "yellow", "red");
+        }
+        if (typeof Resources.traderPrice === "number") {
+            if ((Resources.traderPrice < 1) || (Resources.traderPrice > 9999999)) {
+                Resources.traderPrice = 100000
+            }
+        } else {
+            Logger.Log(`[BoP Mod] - Resource value traderPrice is not a number.`, "yellow", "red");
+        }
+
 
         //pass info to functions below
         this.createItemHandbookEntry(itemId, itemCategory, itemFleaPrice, handbook);

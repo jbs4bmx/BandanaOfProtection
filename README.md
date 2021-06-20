@@ -12,12 +12,11 @@ This mod adds a new version of the bandana (half-mask) and adds armor protection
 
 You can specify the following configurations in the "\config\config.json" file.
 1. "Main Armor" and "Head Segments" are boolean values and must be input as true or false.
-   - No other values will be accepted for these.
-   - Values other than true or false will default to false.
+   - Values other than true or false will default to true.
 2. "Resources" are the property values represented by whole numbers. You can input any value from 1 to 9999999.
-   - If you input 0 for any of the values, the mod will default to 1.
-   - If you input higher than 9999999, it will default to 9999999. (That is a max of 7 nines.)
-   - Negative numbers will also default to 1.
+   - For RepairCost, marketPrice, and traderPrice, any value below 1 or greater than 9999999 will default to 100000.
+   - For Durability, values below 1 or greater than 9999999 will default to 100.
+   - For minTraderLevel, values below 1 or greater than 4 will default to 2.
 
 ``` json
 {
