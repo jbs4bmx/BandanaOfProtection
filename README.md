@@ -37,11 +37,11 @@ You can specify the following configurations in the "\config\config.json" file.
         "Jaws": true    // [Boolean]
     },
     "Resources": {
-        "RepairCost": 1,        // [Integer] value must be a whole number - Sets the cost to repair the item.
-        "Durability": 1,        // [Integer] value must be a whole number - Sets the durability amount of the item.
-        "minTraderLevel": 1,    // [Integer] value must be a whole number - Sets the minimum required trader level to acquire before you can purchase this item.
-        "marketPrice": 1,       // [Integer] value must be a whole number - Sets the Flea Market price of the item.
-        "traderPrice": 1        // [Integer] value must be a whole number - Sets the Ragman price of the item.
+        "RepairCost": 1,        // [Integer] value must be a whole number - Sets the cost to repair the item. (1-9999999)
+        "Durability": 1,        // [Integer] value must be a whole number - Sets the durability amount of the item. (1-9999999)
+        "minTraderLevel": 1,    // [Integer] value must be a whole number - Sets the minimum required trader level to acquire this item. (1-4)
+        "marketPrice": 1,       // [Integer] value must be a whole number - Sets the Flea Market price of the item. (1-9999999)
+        "traderPrice": 1        // [Integer] value must be a whole number - Sets the Ragman price of the item. (1-9999999)
     },
     "other": {
         "HideWarningMessage": false     // Verify that you have read this document and the configuration file.
