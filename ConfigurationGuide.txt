@@ -3,11 +3,11 @@ Configuration Guide
 You can specify the following configurations in the "\src\config.json" file.
 "Main Armor" and "Head Segments" are boolean values and must be input as true or false.
     No other values will be accepted for these.
-    Values other than true or false will default to false.
-"Resources" are the property values represented by whole numbers. You can input any value from 1 to 9999999.
-    If you input 0 for any of the values, the mod will default to 1.
-    If you input higher than 9999999, it will default to 9999999. (That is a max of 7 nines.)
-    Negative numbers will also default to 1.
+    Values other than true or false will default to true.
+"Resources" are the property values represented by whole numbers.
+    For RepairCost, marketPrice, and traderPrice, any value below 1 or greater than 9999999 will default to 100000.
+    For Durability, values below 1 or greater than 9999999 will default to 100.
+    For minTraderLevel, values below 1 or greater than 4 will default to 2.
 
 
 {
@@ -28,11 +28,11 @@ You can specify the following configurations in the "\src\config.json" file.
         "Jaws": true    // [Boolean]
     },
     "Resources": {
-        "RepairCost": 1,        // [Integer] value must be a whole number - Sets the cost to repair the item.
-        "Durability": 1,        // [Integer] value must be a whole number - Sets the durability amount of the item.
-        "minTraderLevel": 1,    // [Integer] value must be a whole number - Sets the minimum required trader level to acquire before you can purchase this item.
-        "marketPrice": 1,       // [Integer] value must be a whole number - Sets the Flea Market price of the item.
-        "traderPrice": 1        // [Integer] value must be a whole number - Sets the Ragman price of the item.
+        "RepairCost": 1,        // [Integer] value must be a whole number - Sets the cost to repair the item. (1-9999999)
+        "Durability": 1,        // [Integer] value must be a whole number - Sets the durability amount of the item.(1-9999999)
+        "minTraderLevel": 1,    // [Integer] value must be a whole number - Sets the minimum required trader level to acquire this item. (1-4)
+        "marketPrice": 1,       // [Integer] value must be a whole number - Sets the Flea Market price of the item.(1-9999999)
+        "traderPrice": 1        // [Integer] value must be a whole number - Sets the Ragman price of the item.(1-9999999)
     },
     "other": {
         "HideWarningMessage": false     // Verify that you have read this document and the configuration file.
