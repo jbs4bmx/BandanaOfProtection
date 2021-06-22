@@ -4,7 +4,7 @@ This mod adds a new version of the bandana (half-mask) and adds armor protection
 
 >Author  : jbs4bmx
 
->Version : 2.0.3 (Supports SPT-AKI 1.*)
+>Version : 2.0.4 (Supports SPT-AKI 1.*)
 
 
 

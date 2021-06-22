@@ -4,7 +4,7 @@
        website: https://www.guilded.gg/senkospub
           name: BandOfProtection
    description: Extra full body armor provided by the bandana.
-       version: 2.0.3
+       version: 2.0.4
      author(s): jbs4bmx
 */
 
@@ -28,10 +28,6 @@ class Mod
     {
         // Load config items
         const { MainArmor, HeadAreas, Resources } = require('./config.json');
-
-        // Config
-        const configFile = `${ModLoader.getModPath(this.mod)}config/config.json`;
-        const config = JsonUtil.deserialize(VFS.readFile(configFile));
 
         // Database
         const database = DatabaseServer.tables;
