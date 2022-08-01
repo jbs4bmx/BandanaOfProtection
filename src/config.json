@@ -1,0 +1,70 @@
+{
+    "MainArmor": {
+        "WHAT": "What areas of the body do you want to protect?",
+        "Head": true,
+        "Thorax": true,
+        "Stomach": true,
+        "LeftArm": true,
+        "RightArm": true,
+        "LeftLeg": true,
+        "RightLeg": true
+    },
+    "HeadAreas": {
+        "WHAT": "What head areas do you want to protect?",
+        "Top": true,
+        "Nape": true,
+        "Ears": true,
+        "Eyes": true,
+        "Jaws": true
+    },
+    "Resources": {
+        "WHAT": "Self-explanatory section.",
+        "RepairCost": 1000,
+        "Durability": 1500,
+        "traderPrice": 69420
+    },
+    "FaceCover": {
+        "NOTICE": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "HalfMask": true,
+        "GP5GasMask": false,
+        "GP7GasMask": false,
+        "Respirator": false,
+        "DevBalaclava": false,
+        "JasonMask": false,
+        "MichealMask": false,
+        "PestilyMask": false,
+        "SmokeBalaclava": false,
+        "TagillaGorilla": false,
+        "TagillaUBEY": false,
+        "GhostBalaclava": false,
+        "MomexBalaclava": false,
+        "ColdFearBalaclava": false,
+        "Rivals2021Balaclava": false,
+        "Balaclava": false,
+        "RoninBallistic": false,
+        "TwitchRivals2020Mask": false,
+        "TwitchRivals2020HalfMask": false,
+        "GreenShemagh": false,
+        "TanShemagh": false,
+        "ShroudMask": false,
+        "ShatteredMask": false,
+        "DeadlySkull": false,
+        "NeopreneMask": false,
+        "GhoulMask": false,
+        "SlenderMask": false,
+        "FacelessMask": false,
+        "FakeMustache": false,
+        "FakeWhiteBeard": false,
+        "BaddiesRedBeard": false,
+        "BigPipe": false,
+        "HockeyPlayerCaptain": false,
+        "HockeyPlayerBrawler": false,
+        "HockeyPlayerQuiet": false,
+        "DeathKnightMask": false,
+        "GloriousEMask": false
+    },
+    "GodMode": {
+        "WHAT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
+        "Enabled": false
+    }
+}

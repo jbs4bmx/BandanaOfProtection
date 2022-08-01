@@ -1,0 +1,100 @@
+{
+	"templates": {
+		"BandanaOfProtection00xxx": {
+			"_id": "BandanaOfProtection00xxx",
+			"_name": "BandOfPro",
+			"_parent": "57bef4c42459772e8d35a53b",
+			"_type": "Item",
+			"_props": {
+				"Name": "Bandana of Protection",
+				"ShortName": "BoP",
+				"Description": "A bandana that provides advanced protection for the weak at heart.",
+				"Weight": 0.1,
+				"BackgroundColor": "red",
+				"Width": 1,
+				"Height": 1,
+				"StackMaxSize": 1,
+				"Rarity": "Superrare",
+				"SpawnChance": 1,
+				"CreditsPrice": 69420,
+				"ItemSound": "item_cloth_generic",
+				"Prefab": {
+					"path": "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle",
+					"rcid": ""
+				},
+				"UsePrefab": {
+					"path": "",
+					"rcid": ""
+				},
+				"StackObjectsCount": 1,
+				"NotShownInSlot": false,
+				"ExaminedByDefault": false,
+				"ExamineTime": 1,
+				"IsUndiscardable": false,
+				"IsUnsaleable": false,
+				"IsUnbuyable": false,
+				"IsUngivable": false,
+				"IsLockedafterEquip": false,
+				"QuestItem": false,
+				"LootExperience": 20,
+				"ExamineExperience": 10,
+				"HideEntrails": false,
+				"RepairCost": 1000,
+				"RepairSpeed": 10,
+				"ExtraSizeLeft": 0,
+				"ExtraSizeRight": 0,
+				"ExtraSizeUp": 0,
+				"ExtraSizeDown": 0,
+				"ExtraSizeForceAdd": false,
+				"MergesWithChildren": false,
+				"CanSellOnRagfair": true,
+				"CanRequireOnRagfair": true,
+				"ConflictingItems": [],
+				"Unlootable": false,
+				"UnlootableFromSlot": "FirstPrimaryWeapon",
+				"UnlootableFromSide": [],
+				"AnimationVariantsNumber": 0,
+				"DiscardingBlock": false,
+				"RagFairCommissionModifier": 1,
+				"IsAlwaysAvailableForInsurance": false,
+				"DiscardLimit": -1,
+				"Grids": [],
+				"Slots": [],
+				"CanPutIntoDuringTheRaid": true,
+				"CantRemoveFromSlotsDuringRaid": [],
+				"BlocksEarpiece": false,
+				"BlocksEyewear": false,
+				"BlocksHeadwear": false,
+				"BlocksFaceCover": false,
+				"Durability": 100,
+				"MaxDurability": 100,
+				"armorClass": "10",
+				"speedPenaltyPercent": 0,
+				"mousePenalty": 0,
+				"weaponErgonomicPenalty": 0,
+				"armorZone": [
+					"Head"
+				],
+				"Indestructibility": 0.9,
+				"headSegments": [
+					"Top",
+					"Nape"
+				],
+				"FaceShieldComponent": false,
+				"FaceShieldMask": "NoMask",
+				"HasHinge": false,
+				"MaterialType": "BodyArmor",
+				"RicochetParams": {
+					"x": 0.9,
+					"y": 0.5,
+					"z": 70
+				},
+				"DeafStrength": "None",
+				"BluntThroughput": 0.10,
+				"ArmorMaterial": "UHMWPE",
+				"BlindnessProtection": 0
+			},
+			"_proto": "572b7fa124597762b472f9d2"
+		}
+	}
+}

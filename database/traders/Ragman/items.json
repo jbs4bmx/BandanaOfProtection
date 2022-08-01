@@ -1,0 +1,14 @@
+{
+    "list": [
+        {
+            "_id": "BandanaOfProtection00xxx",
+            "_tpl": "BandanaOfProtection00xxx",
+            "parentId": "hideout",
+            "slotId": "hideout",
+            "upd": {
+                "UnlimitedCount": true,
+                "StackObjectsCount": 999999
+            }
+        }
+    ]
+}
