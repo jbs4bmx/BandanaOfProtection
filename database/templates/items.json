@@ -8,7 +8,7 @@
 			"_props": {
 				"Name": "Bandana of Protection",
 				"ShortName": "BoP",
-				"Description": "A bandana that provides advanced protection for the weak at heart.",
+				"Description": "A face cover that provides advanced protection for the weak at heart.",
 				"Weight": 0.1,
 				"BackgroundColor": "red",
 				"Width": 1,
@@ -16,7 +16,6 @@
 				"StackMaxSize": 1,
 				"Rarity": "Superrare",
 				"SpawnChance": 1,
-				"CreditsPrice": 69420,
 				"ItemSound": "item_cloth_generic",
 				"Prefab": {
 					"path": "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle",

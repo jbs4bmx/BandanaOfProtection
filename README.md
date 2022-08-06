@@ -4,7 +4,7 @@ This mod adds a new version of the face cover of your choosing and adds armor pr
 
 >Author  : jbs4bmx
 
->Version : 311.0.0 (Supports SPT-AKI 3.0.0 and EFT Version 0.12.12.30.19078)
+>Version : 311.0.1 (Supports SPT-AKI 3.1.1 and EFT Version 0.12.12.30.19078)
 
 
 ### INSTALLATION GUIDE
@@ -18,12 +18,11 @@ You can specify the following configurations in the "\config\config.json" file.
 1. "Main Armor" and "Head Segments" are boolean values and must be input as true or false.
    - Values other than true or false will default to true.
 2. "Resources" are the property values represented by whole numbers. You can input any value from 1 to 9999999.
-   - For RepairCost, marketPrice, and traderPrice, any value below 1 or greater than 9999999 will default to 100000.
+   - For RepairCost and traderPrice, any value below 1 or greater than 9999999 will default to 100000.
    - For Durability, values below 1 or greater than 9999999 will default to 100.
-   - For minTraderLevel, values below 1 or greater than 4 will default to 2.
 3. "FaceCover" allows you to choose your favorite look.
    - Last option set to true will be used so remember to only set 1 option to TRUE.
-   - IMPORTANT: clean temp files before launching the game client to ensure that the changes to the icon show up in the game.
+   - IMPORTANT: clean temp files before launching the game client to ensure that the changes to the icon will show up in the game.
 4. "GodMode" allows you to disable penetration throughput essentially making you impervious to all projectile penetration until the armor is depleted.
    - Set to "true" to enable.
 

@@ -1,17 +1,17 @@
 /*
  *      Name: BandanaOfProtection
- *   Version: 311.0.0
+ *   Version: 311.0.1
  * Copyright: jbs4bmx
- *    Update: 31.07.2022
+ *    Update: 05.08.2022
 */
 
 import { DependencyContainer } from "tsyringe";
 import { IMod } from "@spt-aki/models/external/mod";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { LogTextColor } from "@spt-aki/models/spt/logging/LogTextColor";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { DatabaseImporter } from "@spt-aki/utils/DatabaseImporter";
 import { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
+import { PostAkiModLoader } from "@spt-aki/loaders/PostAkiModLoader";
 
 let bopdb;
 
@@ -34,6 +34,7 @@ class Bandana implements IMod
         const preAkiModLoader = container.resolve<PreAkiModLoader>("PreAkiModLoader");
         const databaseImporter = container.resolve<DatabaseImporter>("DatabaseImporter");
         const locales = db.locales.global;
+        const handbook = db.templates.handbook.Items;
         this.pkg = require("../package.json");
         bopdb = databaseImporter.loadRecursive(`${preAkiModLoader.getModPath(this.modName)}database/`);
 
@@ -44,10 +45,9 @@ class Bandana implements IMod
         }
 
         for (const h_item of bopdb.templates.handbook.Items) {
-            if (!db.templates.handbook.Items.find(i=>i.Id == h_item.Id)) {
-                db.templates.handbook.Items.push(h_item);
+            if (!handbook.find(i=>i.Id == h_item.Id)) {
+                handbook.push(h_item);
             }
-
         }
 
         for (const localeID in locales) {
@@ -59,7 +59,6 @@ class Bandana implements IMod
         for (const tradeName in db.traders) {
             // Ragman
             if ( tradeName === "5ac3b934156ae10c4430e83c" ) {
-                logger.logWithColor("The gods are supplying Ragman with additional gear...",LogTextColor.yellow);
                 for (const ri_item of bopdb.traders.Ragman.items.list) {
                     if (!db.traders[tradeName].assort.items.find(i=>i._id == ri_item._id)) {
                         db.traders[tradeName].assort.items.push(ri_item);
@@ -79,18 +78,23 @@ class Bandana implements IMod
         logger.info(`${this.pkg.author}-${this.pkg.name} v${this.pkg.version}: Cached successfully`);
     }
 
+    public postAkiLoadMod(container: DependencyContainer): void
+    {
+        //this.setConfigOptions(container);
+        return;
+    }
+
     public setConfigOptions(container: DependencyContainer): void
     {
         const db = container.resolve<DatabaseServer>("DatabaseServer").getTables();
+        const handBook = db.templates.handbook.Items;
+        const barterScheme = db.traders["5ac3b934156ae10c4430e83c"].assort.barter_scheme;
         const { MainArmor, HeadAreas, Resources, FaceCover, GodMode } = require("./config.json");
-
         db.templates.items["55d7217a4bdc2d86028b456d"]._props.Slots[4]._props.filters[0].Filter.push("BandanaOfProtection00xxx");
-
         let armor = [];
         let segments = [];
         let fab = "";
 
-        // Armor options
         if (typeof MainArmor.Head === "boolean") {
             if (MainArmor.Head === true) {
                 armor.push("Head")
@@ -107,11 +111,11 @@ class Bandana implements IMod
         if (typeof MainArmor.RightArm === "boolean") { if (MainArmor.RightArm === true) { armor.push("RightArm") } }
         if (typeof MainArmor.LeftLeg === "boolean") { if (MainArmor.LeftLeg === true) { armor.push("LeftLeg") } }
         if (typeof MainArmor.RightLeg === "boolean") { if (MainArmor.RightLeg === true) { armor.push("RightLeg") } }
-        // Cost and Durability options
-        if (typeof Resources.RepairCost === "number") { if ((Resources.RepairCost < 1) || (Resources.RepairCost > 9999999)) { Resources.RepairCost = 1000 } }
-        if (typeof Resources.Durability === "number") { if ((Resources.Durability < 1) || (Resources.Durability > 9999999)) { Resources.Durability = 1500 } }
-        if (typeof Resources.traderPrice === "number") { if ((Resources.traderPrice < 1) || (Resources.traderPrice > 9999999)) { Resources.traderPrice = 69420 } }
-        // Different face cover options
+
+        if (typeof Resources.RepairCost === "number") { if (!(0 < Resources.RepairCost && Resources.RepairCost < 9999999)) { Resources.RepairCost = 1000 } }
+        if (typeof Resources.Durability === "number") { if (!(0 < Resources.Durability && Resources.Durability < 9999999)) { Resources.Durability = 1500 } }
+        if (typeof Resources.traderPrice === "number") { if (!(0 < Resources.traderPrice && Resources.traderPrice < 9999999)) { Resources.traderPrice = 69420 } }
+
         if (typeof FaceCover.HalfMask === "boolean") { if (FaceCover.HalfMask) { fab = "" } }
         if (typeof FaceCover.GP5GasMask === "boolean") { if (FaceCover.GP5GasMask) { fab = "assets/content/items/equipment/facecover_gasmask_gp5/item_equipment_facecover_gasmask_gp5.bundle" } }
         if (typeof FaceCover.GP7GasMask === "boolean") { if (FaceCover.GP7GasMask) { fab = "assets/content/items/equipment/facecover_gasmask_gp7/item_equipment_facecover_gasmask_gp7.bundle" } }
@@ -149,11 +153,25 @@ class Bandana implements IMod
         if (typeof FaceCover.HockeyPlayerQuiet === "boolean") { if (FaceCover.HockeyPlayerQuiet) { fab = "assets/content/items/equipment/item_equipment_facecover_hockey_03.bundle" } }
         if (typeof FaceCover.DeathKnightMask === "boolean") { if (FaceCover.DeathKnightMask) { fab = "assets/content/items/equipment/item_equipment_facecover_boss_blackknight.bundle" } }
         if (typeof FaceCover.GloriousEMask === "boolean") { if (FaceCover.GloriousEMask) { fab = "assets/content/items/equipment/item_equipment_facecover_glorious.bundle" } }
-        // Set GodMode
+
         if (typeof GodMode.Enabled === "boolean") { if (GodMode.Enabled) { var throughput = 0 } else { var throughput = 1}
 
-        if (!( fab === "" )) { db.templates.items["BandanaOfProtection00xxx"]._props.Prefab.path = fab; }
-        db.templates.items["BandanaOfProtection00xxx"]._props.CreditsPrice = Resources.traderPrice;
+        if (!( fab === "" )) {
+            db.templates.items["BandanaOfProtection00xxx"]._props.Prefab.path = fab;
+        }
+
+        for ( var i=0; i<handBook.length; i++ ) {
+            if ( handBook[i].Id == "BandanaOfProtection00xxx" ) {
+                handBook[i].Price = Resources.traderPrice;
+            }
+        }
+
+        for (const barterItem in barterScheme) {
+            if (barterItem == "BandanaOfProtection00xxx") {
+                barterScheme[barterItem][0][0].count = Resources.traderPrice;
+            }
+        }
+
         db.templates.items["BandanaOfProtection00xxx"]._props.RepairCost = Resources.RepairCost;
         db.templates.items["BandanaOfProtection00xxx"]._props.Durability = Resources.Durability;
         db.templates.items["BandanaOfProtection00xxx"]._props.MaxDurability = Resources.Durability;
