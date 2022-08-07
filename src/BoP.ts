@@ -1,6 +1,6 @@
 /*
  *      Name: BandanaOfProtection
- *   Version: 311.0.1
+ *   Version: 311.0.2
  * Copyright: jbs4bmx
  *    Update: 05.08.2022
 */
@@ -11,14 +11,14 @@ import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { DatabaseImporter } from "@spt-aki/utils/DatabaseImporter";
 import { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
-import { PostAkiModLoader } from "@spt-aki/loaders/PostAkiModLoader";
 
 let bopdb;
 
 class Bandana implements IMod
 {
     private pkg;
-    private modName = "jbs4bmx-BandanaOfProtection"
+    private path = require('path');
+    private modName = this.path.basename(this.path.dirname(__dirname.split('/').pop()));
 
     public preAkiLoad(container: DependencyContainer)
     {
@@ -78,12 +78,6 @@ class Bandana implements IMod
         logger.info(`${this.pkg.author}-${this.pkg.name} v${this.pkg.version}: Cached successfully`);
     }
 
-    public postAkiLoadMod(container: DependencyContainer): void
-    {
-        //this.setConfigOptions(container);
-        return;
-    }
-
     public setConfigOptions(container: DependencyContainer): void
     {
         const db = container.resolve<DatabaseServer>("DatabaseServer").getTables();
@@ -99,7 +93,7 @@ class Bandana implements IMod
             if (MainArmor.Head === true) {
                 armor.push("Head")
                 if (typeof HeadAreas.Top === "boolean") { if (HeadAreas.Top === true) { segments.push("Top") } }
-                if (typeof HeadAreas.Nape === "boolean") { if (HeadAreas.Nape === true) { segments.push("Nape") } }
+                if (typeof HeadAreas.Nape === "boolean") { if (HeadAreas.Nape === true) { segments.push("Nape") && segments.push("LowerNape") } }
                 if (typeof HeadAreas.Ears === "boolean") { if (HeadAreas.Ears === true) { segments.push("Ears") } }
                 if (typeof HeadAreas.Eyes === "boolean") { if (HeadAreas.Eyes === true) { segments.push("Eyes") } }
                 if (typeof HeadAreas.Jaws === "boolean") { if (HeadAreas.Jaws === true) { segments.push("Jaws") } }
@@ -161,15 +155,11 @@ class Bandana implements IMod
         }
 
         for ( var i=0; i<handBook.length; i++ ) {
-            if ( handBook[i].Id == "BandanaOfProtection00xxx" ) {
-                handBook[i].Price = Resources.traderPrice;
-            }
+            if ( handBook[i].Id == "BandanaOfProtection00xxx" ) { handBook[i].Price = Resources.traderPrice; }
         }
 
         for (const barterItem in barterScheme) {
-            if (barterItem == "BandanaOfProtection00xxx") {
-                barterScheme[barterItem][0][0].count = Resources.traderPrice;
-            }
+            if (barterItem == "BandanaOfProtection00xxx") { barterScheme[barterItem][0][0].count = Resources.traderPrice; }
         }
 
         db.templates.items["BandanaOfProtection00xxx"]._props.RepairCost = Resources.RepairCost;
