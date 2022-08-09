@@ -4,7 +4,7 @@ This mod adds a new version of the face cover of your choosing and adds armor pr
 
 >Author  : jbs4bmx
 
->Version : 311.0.2 (Supports SPT-AKI 3.1.1 and EFT Version 0.12.12.30.19078)
+>Version : 311.0.2 (Supports SPT-AKI 3.2.0 and EFT Version 0.12.12.30.19078)
 
 
 ### INSTALLATION GUIDE

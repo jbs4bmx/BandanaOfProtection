@@ -1,8 +1,8 @@
 /*
  *      Name: BandanaOfProtection
- *   Version: 311.0.2
+ *   Version: 320.0.1
  * Copyright: jbs4bmx
- *    Update: 05.08.2022
+ *    Update: 08.08.2022
 */
 
 import { DependencyContainer } from "tsyringe";
@@ -167,7 +167,7 @@ class Bandana implements IMod
         db.templates.items["BandanaOfProtection00xxx"]._props.MaxDurability = Resources.Durability;
         db.templates.items["BandanaOfProtection00xxx"]._props.armorZone = armor;
         db.templates.items["BandanaOfProtection00xxx"]._props.headSegments = segments;
-        if (!( throughput === 1 )) { db.templates.items["BandanaOfProtection00xxx"]._props.BluntThroughput = 0; }
+        if ( throughput === 0 ) { db.templates.items["BandanaOfProtection00xxx"]._props.BluntThroughput = 0; }
     }
 }
 module.exports = { mod: new Bandana() }
