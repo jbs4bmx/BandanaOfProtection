@@ -1,6 +1,6 @@
 {
     "MainArmor": {
-        "WHAT": "What areas of the body do you want to protect?",
+        "DESCRIPTION_OF_THIS_SECTION": "What areas of the body do you want to protect?",
         "Head": true,
         "Thorax": true,
         "Stomach": true,
@@ -10,7 +10,7 @@
         "RightLeg": true
     },
     "HeadAreas": {
-        "WHAT": "What head areas do you want to protect?",
+        "DESCRIPTION_OF_THIS_SECTION": "What head areas do you want to protect?",
         "Top": true,
         "Nape": true,
         "Ears": true,
@@ -18,13 +18,13 @@
         "Jaws": true
     },
     "Resources": {
-        "WHAT": "Self-explanatory section.",
+        "DESCRIPTION_OF_THIS_SECTION": "Self-explanatory section.",
         "RepairCost": 1000,
         "Durability": 1500,
         "traderPrice": 69420
     },
     "FaceCover": {
-        "NOTICE": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "DESCRIPTION_OF_THIS_SECTION": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
         "HalfMask": true,
         "GP5GasMask": false,
         "GP7GasMask": false,
@@ -64,7 +64,7 @@
         "GloriousEMask": false
     },
     "GodMode": {
-        "WHAT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
+        "DESCRIPTION_OF_THIS_SECTION": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
         "Enabled": false
     }
 }
