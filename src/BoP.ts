@@ -1,12 +1,13 @@
 /*
  *      Name: BandanaOfProtection
- *   Version: 325.0.1
+ *   Version: 330.0.1
  * Copyright: jbs4bmx
- *    Update: 23.10.2022
+ *    Update: [DMY] 14.11.2022
 */
 
 import { DependencyContainer } from "tsyringe";
-import { IMod } from "@spt-aki/models/external/mod";
+import { IPreAkiLoadMod } from "@spt-aki/models/external/IPreAkiLoadMod";
+import { IPostDBLoadMod } from "@spt-aki/models/externals/IPostDBLoadMod";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { DatabaseImporter } from "@spt-aki/utils/DatabaseImporter";
@@ -14,7 +15,7 @@ import { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
 
 let bopdb;
 
-class Bandana implements IMod
+class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
 {
     private pkg;
     private path = require('path');
@@ -49,7 +50,6 @@ class Bandana implements IMod
         }
 
         for (const tradeName in db.traders) {
-            // Ragman
             if ( tradeName === "5ac3b934156ae10c4430e83c" ) {
                 for (const ri_item of bopdb.traders.Ragman.items.list) {
                     if (!db.traders[tradeName].assort.items.find(i=>i._id == ri_item._id)) {
