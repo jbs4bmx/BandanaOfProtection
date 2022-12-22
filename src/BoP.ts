@@ -1,8 +1,8 @@
 /*
  *      Name: BandanaOfProtection
- *   Version: 330.0.1
+ *   Version: 340.0.1
  * Copyright: jbs4bmx
- *    Update: [DMY] 14.11.2022
+ *    Update: [DMY] 22.12.2022
 */
 
 import { DependencyContainer } from "tsyringe";
@@ -34,18 +34,17 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
 
         for (const i_item in bopdb.templates.items.templates) {
             db.templates.items[i_item] = bopdb.templates.items.templates[i_item];
-            db.templates.items[i_item]._props.Finallowed = false;
-            db.templates.items[i_item]._props.FinAllowed = false;
         }
 
-        for (const h_item of bopdb.templates.handbook.Items) { if (!handbook.find(i=>i.Id == h_item.Id)) {
+        for (const h_item of bopdb.templates.handbook.Items) {
+            if (!handbook.find(i=>i.Id == h_item.Id)) {
                 handbook.push(h_item);
             }
         }
 
         for (const localeID in locales) {
-            for (const locale in bopdb.locales.en.templates) {
-                locales[localeID].templates[locale] = bopdb.locales.en.templates[locale];
+            for (const locale in bopdb.locales.en) {
+                locales[localeID][locale] = bopdb.locales.en[locale];
             }
         }
 

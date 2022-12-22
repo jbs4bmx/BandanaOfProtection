@@ -29,20 +29,20 @@ You can specify the following configurations in the "\config\config.json" file.
 ``` json
 {
     "MainArmor": {
-        "Head": true,       // [Boolean] value must be set to true or false - true = enabled.
-        "Thorax": true,     // [Boolean]
-        "Stomach": true,    // [Boolean]
-        "LeftArm": true,    // [Boolean]
-        "RightArm": true,   // [Boolean]
-        "LeftLeg": true,    // [Boolean]
-        "RightLeg": true    // [Boolean]
+        "Head": true,        // [Boolean] value must be set to true or false - true = enabled.
+        "Thorax": false,     // [Boolean]
+        "Stomach": false,    // [Boolean]
+        "LeftArm": false,    // [Boolean]
+        "RightArm": false,   // [Boolean]
+        "LeftLeg": false,    // [Boolean]
+        "RightLeg": false    // [Boolean]
     },
     "HeadAreas": {
-        "Top": true,    // [Boolean] value must be set to true or false - true = enabled.
-        "Nape": true,   // [Boolean]
-        "Ears": true,   // [Boolean]
-        "Eyes": true,   // [Boolean]
-        "Jaws": true    // [Boolean]
+        "Top": false,    // [Boolean] value must be set to true or false - true = enabled.
+        "Nape": false,   // [Boolean]
+        "Ears": false,   // [Boolean]
+        "Eyes": false,   // [Boolean]
+        "Jaws": true     // [Boolean]
     },
     "Resources": {
         "RepairCost": 1,        // [Integer] value must be a whole number - Sets the cost to repair the item. (1-9999999)
