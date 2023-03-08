@@ -38,11 +38,12 @@ You can specify the following configurations in the "\config\config.json" file.
         "RightLeg": false    // [Boolean]
     },
     "HeadAreas": {
-        "Top": false,    // [Boolean] value must be set to true or false - true = enabled.
-        "Nape": false,   // [Boolean]
-        "Ears": false,   // [Boolean]
-        "Eyes": false,   // [Boolean]
-        "Jaws": true     // [Boolean]
+        "Top": false,       // [Boolean] value must be set to true or false - true = enabled.
+        "Nape": false,      // [Boolean]
+        "LowerNape": false, // [Boolean]
+        "Ears": false,      // [Boolean]
+        "Eyes": false,      // [Boolean]
+        "Jaws": true        // [Boolean]
     },
     "Resources": {
         "RepairCost": 1,        // [Integer] value must be a whole number - Sets the cost to repair the item. (1-9999999)

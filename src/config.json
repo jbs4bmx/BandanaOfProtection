@@ -1,6 +1,6 @@
 {
     "MainArmor": {
-        "DESCRIPTION_OF_THIS_SECTION": "What areas of the body do you want to protect?",
+        "_COMMENT": "What areas of the body do you want to protect?",
         "Head": true,
         "Thorax": false,
         "Stomach": false,
@@ -10,21 +10,23 @@
         "RightLeg": false
     },
     "HeadAreas": {
-        "DESCRIPTION_OF_THIS_SECTION": "What head areas do you want to protect? Requires 'Head' set to true.",
+        "_COMMENT": "Enable these only if you want particular areas to be protected, otherwise 'Head: true' is enough to protect your head.",
+        "_Notice": "This section is only valid if 'Head' is set to 'true'.",
         "Top": false,
         "Nape": false,
+        "LowerNape": false,
         "Ears": false,
         "Eyes": false,
         "Jaws": true
     },
     "Resources": {
-        "DESCRIPTION_OF_THIS_SECTION": "Self-explanatory section.",
-        "RepairCost": 1415,
+        "_COMMENT": "Self-explanatory section.",
+        "RepairCost": 50,
         "Durability": 1500,
-        "traderPrice": 141592
+        "traderPrice": 79000
     },
     "FaceCover": {
-        "DESCRIPTION_OF_THIS_SECTION": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
         "HalfMask": true,
         "GP5GasMask": false,
         "GP7GasMask": false,
@@ -64,7 +66,11 @@
         "GloriousEMask": false
     },
     "GodMode": {
-        "DESCRIPTION_OF_THIS_SECTION": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
+        "_COMMENT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
         "Enabled": false
+    },
+    "Blacklist": {
+        "_COMMENT": "Set to false to remove chance of pmc bots spawning with this item in their inventory.",
+        "Value": false
     }
 }

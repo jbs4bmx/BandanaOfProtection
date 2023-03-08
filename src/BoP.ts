@@ -1,8 +1,8 @@
 /**
  *      Name: BandanaOfProtection
- *   Version: 350.0.1
+ *   Version: 351.0.1
  * Copyright: jbs4bmx
- *    Update: [DMY] 12.02.2023
+ *    Update: [DMY] 07.03.2023
 */
 
 import { DependencyContainer } from "tsyringe";
@@ -12,6 +12,9 @@ import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ImporterUtil } from "@spt-aki/utils/ImporterUtil";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
+import { ConfigServer } from "@spt-aki/servers/ConfigServer";
+import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
+import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 
 let bopdb;
 
@@ -72,18 +75,22 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
     public setConfigOptions(container: DependencyContainer): void
     {
         const db = container.resolve<DatabaseServer>("DatabaseServer").getTables();
+        const configServer = container.resolve<ConfigServer>("ConfigServer");
+        const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
         const handBook = db.templates.handbook.Items;
         const barterScheme = db.traders["5ac3b934156ae10c4430e83c"].assort.barter_scheme;
-        const { MainArmor, HeadAreas, Resources, FaceCover, GodMode } = require("./config.json");
+        const { MainArmor, HeadAreas, Resources, FaceCover, GodMode, Blacklist } = require("./config.json");
         db.templates.items["55d7217a4bdc2d86028b456d"]._props.Slots[4]._props.filters[0].Filter.push("BandanaOfProtection00xxx");
         let armor = [];
         let segments = [];
         let fab = "";
 
-        if (typeof MainArmor.Head === "boolean") { if (MainArmor.Head === true) {
+        if (typeof MainArmor.Head === "boolean") {
+            if (MainArmor.Head === true) {
                 armor.push("Head")
                 if (typeof HeadAreas.Top === "boolean") { if (HeadAreas.Top === true) { segments.push("Top"); } }
-                if (typeof HeadAreas.Nape === "boolean") { if (HeadAreas.Nape === true) { segments.push("Nape") && segments.push("LowerNape"); } }
+                if (typeof HeadAreas.Nape === "boolean") { if (HeadAreas.Nape === true) { segments.push("Nape"); } }
+                if (typeof HeadAreas.LowerNape === "boolean") { if (HeadAreas.LowerNape === true) { segments.push("LowerNape"); } }
                 if (typeof HeadAreas.Ears === "boolean") { if (HeadAreas.Ears === true) { segments.push("Ears"); } }
                 if (typeof HeadAreas.Eyes === "boolean") { if (HeadAreas.Eyes === true) { segments.push("Eyes"); } }
                 if (typeof HeadAreas.Jaws === "boolean") { if (HeadAreas.Jaws === true) { segments.push("Jaws"); } }
@@ -138,7 +145,15 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
         if (typeof FaceCover.DeathKnightMask === "boolean") { if (FaceCover.DeathKnightMask) { fab = "assets/content/items/equipment/item_equipment_facecover_boss_blackknight.bundle"; } }
         if (typeof FaceCover.GloriousEMask === "boolean") { if (FaceCover.GloriousEMask) { fab = "assets/content/items/equipment/item_equipment_facecover_glorious.bundle"; } }
 
-        if (typeof GodMode.Enabled === "boolean") { if (GodMode.Enabled) { var throughput = 0 } else { var throughput = 1; }
+        if (typeof GodMode.Enabled === "boolean") { if (GodMode.Enabled) { var throughput = 0 } else { var throughput = 1; } }
+
+        if (typeof Blacklist.Value === "boolean") {
+            if (Blacklist.Value) {
+                botConfig.pmc.vestLoot.blacklist.push("BandanaOfProtection00xxx");
+                botConfig.pmc.pocketLoot.blacklist.push("BandanaOfProtection00xxx");
+                botConfig.pmc.backpackLoot.blacklist.push("BandanaOfProtection00xxx");
+            }
+        }
 
         for ( var i=0; i<handBook.length; i++ ) { if ( handBook[i].Id == "BandanaOfProtection00xxx" ) { handBook[i].Price = Resources.traderPrice; } }
 
