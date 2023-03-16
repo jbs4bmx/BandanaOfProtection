@@ -1,8 +1,5 @@
 /**
- *      Name: BandanaOfProtection
- *   Version: 352.0.1
  * Copyright: jbs4bmx
- *    Update: [DMY] 09.03.2023
 */
 
 import { DependencyContainer } from "tsyringe";
