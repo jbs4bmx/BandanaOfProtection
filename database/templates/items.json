@@ -14,7 +14,7 @@
 				"Width": 1,
 				"Height": 1,
 				"StackMaxSize": 1,
-				"ItemSound": "Superrare",
+				"ItemSound": "gear_armor",
 				"Prefab": {
 					"path": "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle",
 					"rcid": ""
@@ -90,8 +90,9 @@
 				},
 				"DeafStrength": "None",
 				"BluntThroughput": 0.2,
-				"ArmorMaterial": "UHMWPE",
-				"BlindnessProtection": 0
+				"ArmorMaterial": "Titan",
+				"BlindnessProtection": 0,
+				"ArmorType": "Heavy"
 			},
 			"_proto": "572b7d8524597762b472f9d1"
 		}

@@ -76,7 +76,7 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
         const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
         const handBook = db.templates.handbook.Items;
         const barterScheme = db.traders["5ac3b934156ae10c4430e83c"].assort.barter_scheme;
-        const { MainArmor, HeadAreas, Resources, FaceCover, GodMode, Blacklist } = require("./config.json");
+        const { MainArmor, HeadAreas, Resources, TypeOfArmor, MaterialOfArmor, FaceCover, GodMode, Blacklist } = require("./config.json");
         db.templates.items["55d7217a4bdc2d86028b456d"]._props.Slots[4]._props.filters[0].Filter.push("BandanaOfProtection00xxx");
         let armor = [];
         let segments = [];
@@ -103,6 +103,19 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
         if (typeof Resources.RepairCost === "number") { if (!(0 < Resources.RepairCost && Resources.RepairCost < 9999999)) { Resources.RepairCost = 1000; } }
         if (typeof Resources.Durability === "number") { if (!(0 < Resources.Durability && Resources.Durability < 9999999)) { Resources.Durability = 1500; } }
         if (typeof Resources.traderPrice === "number") { if (!(0 < Resources.traderPrice && Resources.traderPrice < 9999999)) { Resources.traderPrice = 69420; } }
+
+        if (typeof TypeOfArmor.Heavy === "boolean") { if ( TypeOfArmor.Heavy ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorType = "Heavy"; } }
+        if (typeof TypeOfArmor.Light === "boolean") { if ( TypeOfArmor.Light ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorType = "Light"; } }
+        if (typeof TypeOfArmor.None === "boolean") { if ( TypeOfArmor.None ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorType = "None"; } }
+
+        if (typeof MaterialOfArmor.UHMWPE === "boolean" ) { if ( MaterialOfArmor.UHMWPE ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "UHMWPE"; } }
+        if (typeof MaterialOfArmor.Aramid === "boolean" ) { if ( MaterialOfArmor.Aramid ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Aramid"; } }
+        if (typeof MaterialOfArmor.Combined === "boolean" ) { if ( MaterialOfArmor.Combined ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Combined"; } }
+        if (typeof MaterialOfArmor.Titan === "boolean" ) { if ( MaterialOfArmor.Titan ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Titan"; } }
+        if (typeof MaterialOfArmor.Aluminium === "boolean" ) { if ( MaterialOfArmor.Aluminium ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Aluminium"; } }
+        if (typeof MaterialOfArmor.ArmoredSteel === "boolean" ) { if ( MaterialOfArmor.ArmoredSteel ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "ArmoredSteel"; } }
+        if (typeof MaterialOfArmor.Ceramic === "boolean" ) { if ( MaterialOfArmor.Ceramic ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Ceramic"; } }
+        if (typeof MaterialOfArmor.Glass === "boolean" ) { if ( MaterialOfArmor.Glass ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Glass"; } }
 
         if (typeof FaceCover.HalfMask === "boolean") { if (FaceCover.HalfMask) { fab = "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle"; } }
         if (typeof FaceCover.GP5GasMask === "boolean") { if (FaceCover.GP5GasMask) { fab = "assets/content/items/equipment/facecover_gasmask_gp5/item_equipment_facecover_gasmask_gp5.bundle"; } }
@@ -141,6 +154,8 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
         if (typeof FaceCover.HockeyPlayerQuiet === "boolean") { if (FaceCover.HockeyPlayerQuiet) { fab = "assets/content/items/equipment/item_equipment_facecover_hockey_03.bundle"; } }
         if (typeof FaceCover.DeathKnightMask === "boolean") { if (FaceCover.DeathKnightMask) { fab = "assets/content/items/equipment/item_equipment_facecover_boss_blackknight.bundle"; } }
         if (typeof FaceCover.GloriousEMask === "boolean") { if (FaceCover.GloriousEMask) { fab = "assets/content/items/equipment/item_equipment_facecover_glorious.bundle"; } }
+        if (typeof FaceCover.ZryachiyBalaclavaOpen === "boolean") { if (FaceCover.ZryachiyBalaclavaOpen) { fab = "assets/content/items/equipment/head_boss_zryachi_balaclava_open/item_equipment_head_boss_zryachi_balaclava_open.bundle"; } }
+        if (typeof FaceCover.ZryachiyBalaclavaClosed === "boolean") { if (FaceCover.ZryachiyBalaclavaClosed) { fab = "assets/content/items/equipment/facecover_boss_zryachi_closed/facecover_boss_zryachi_closed.bundle"; } }
 
         if (typeof GodMode.Enabled === "boolean") { if (GodMode.Enabled) { var throughput = 0 } else { var throughput = 1; } }
 

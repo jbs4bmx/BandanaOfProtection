@@ -25,6 +25,23 @@
         "Durability": 1500,
         "traderPrice": 79000
     },
+    "TypeOfArmor": {
+        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "Heavy": true,
+        "Light": false,
+        "None": false
+    },
+    "MaterialOfArmor": {
+        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "UHMWPE": false,
+        "Aramid": false,
+        "Combined": false,
+        "Titan": true,
+        "Aluminium": false,
+        "ArmoredSteel": false,
+        "Ceramic": false,
+        "Glass": false
+    },
     "FaceCover": {
         "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
         "HalfMask": true,
@@ -63,7 +80,9 @@
         "HockeyPlayerBrawler": false,
         "HockeyPlayerQuiet": false,
         "DeathKnightMask": false,
-        "GloriousEMask": false
+        "GloriousEMask": false,
+        "ZryachiyBalaclavaOpen": false,
+        "ZryachiyBalaclavaClosed": false
     },
     "GodMode": {
         "_COMMENT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
