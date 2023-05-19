@@ -29,68 +29,97 @@ You can specify the following configurations in the "\config\config.json" file.
 ``` json
 {
     "MainArmor": {
-        "Head": true,        // [Boolean] value must be set to true or false - true = enabled.
-        "Thorax": false,     // [Boolean]
-        "Stomach": false,    // [Boolean]
-        "LeftArm": false,    // [Boolean]
-        "RightArm": false,   // [Boolean]
-        "LeftLeg": false,    // [Boolean]
-        "RightLeg": false    // [Boolean]
+        "_COMMENT": "What areas of the body do you want to protect?",
+        "Head": true,
+        "Thorax": false,
+        "Stomach": false,
+        "LeftArm": false,
+        "RightArm": false,
+        "LeftLeg": false,
+        "RightLeg": false
     },
     "HeadAreas": {
-        "Top": false,       // [Boolean] value must be set to true or false - true = enabled.
-        "Nape": false,      // [Boolean]
-        "LowerNape": false, // [Boolean]
-        "Ears": false,      // [Boolean]
-        "Eyes": false,      // [Boolean]
-        "Jaws": true        // [Boolean]
+        "_COMMENT": "Enable these only if you want particular areas to be protected, otherwise 'Head: true' is enough to protect your head.",
+        "_Notice": "This section is only valid if 'Head' is set to 'true'.",
+        "Top": false,
+        "Nape": false,
+        "LowerNape": false,
+        "Ears": false,
+        "Eyes": false,
+        "Jaws": true
     },
     "Resources": {
-        "RepairCost": 1,        // [Integer] value must be a whole number - Sets the cost to repair the item. (1-9999999)
-        "Durability": 1,        // [Integer] value must be a whole number - Sets the durability amount of the item. (1-9999999)
-        "traderPrice": 1        // [Integer] value must be a whole number - Sets the Ragman price of the item. (1-9999999)
+        "_COMMENT": "Self-explanatory section.",
+        "RepairCost": 50,
+        "Durability": 1500,
+        "traderPrice": 79000
+    },
+    "TypeOfArmor": {
+        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "Heavy": true,
+        "Light": false,
+        "None": false
+    },
+    "MaterialOfArmor": {
+        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "UHMWPE": false,
+        "Aramid": false,
+        "Combined": false,
+        "Titan": true,
+        "Aluminium": false,
+        "ArmoredSteel": false,
+        "Ceramic": false,
+        "Glass": false
     },
     "FaceCover": {
-        "HalfMask": true,                   // [Boolean] value must be set to true or false - true = enabled.
-        "GP5GasMask": false,                // [Boolean]
-        "GP7GasMask": false,                // [Boolean]
-        "Respirator": false,                // [Boolean]
-        "DevBalaclava": false,              // [Boolean]
-        "JasonMask": false,                 // [Boolean]
-        "MichealMask": false,               // [Boolean]
-        "PestilyMask": false,               // [Boolean]
-        "SmokeBalaclava": false,            // [Boolean]
-        "TagillaGorilla": false,            // [Boolean]
-        "TagillaUBEY": false,               // [Boolean]
-        "GhostBalaclava": false,            // [Boolean]
-        "MomexBalaclava": false,            // [Boolean]
-        "ColdFearBalaclava": false,         // [Boolean]
-        "Rivals2021Balaclava": false,       // [Boolean]
-        "Balaclava": false,                 // [Boolean]
-        "RoninBallistic": false,            // [Boolean]
-        "TwitchRivals2020Mask": false,      // [Boolean]
-        "TwitchRivals2020HalfMask": false,  // [Boolean]
-        "GreenShemagh": false,              // [Boolean]
-        "TanShemagh": false,                // [Boolean]
-        "ShroudMask": false,                // [Boolean]
-        "ShatteredMask": false,             // [Boolean]
-        "DeadlySkull": false,               // [Boolean]
-        "NeopreneMask": false,              // [Boolean]
-        "GhoulMask": false,                 // [Boolean]
-        "SlenderMask": false,               // [Boolean]
-        "FacelessMask": false,              // [Boolean]
-        "FakeMustache": false,              // [Boolean]
-        "FakeWhiteBeard": false,            // [Boolean]
-        "BaddiesRedBeard": false,           // [Boolean]
-        "BigPipe": false,                   // [Boolean]
-        "HockeyPlayerCaptain": false,       // [Boolean]
-        "HockeyPlayerBrawler": false,       // [Boolean]
-        "HockeyPlayerQuiet": false,         // [Boolean]
-        "DeathKnightMask": false,           // [Boolean]
-        "GloriousEMask": false              // [Boolean]
+        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "HalfMask": true,
+        "GP5GasMask": false,
+        "GP7GasMask": false,
+        "Respirator": false,
+        "DevBalaclava": false,
+        "JasonMask": false,
+        "MichealMask": false,
+        "PestilyMask": false,
+        "SmokeBalaclava": false,
+        "TagillaGorilla": false,
+        "TagillaUBEY": false,
+        "GhostBalaclava": false,
+        "MomexBalaclava": false,
+        "ColdFearBalaclava": false,
+        "Rivals2021Balaclava": false,
+        "Balaclava": false,
+        "RoninBallistic": false,
+        "TwitchRivals2020Mask": false,
+        "TwitchRivals2020HalfMask": false,
+        "GreenShemagh": false,
+        "TanShemagh": false,
+        "ShroudMask": false,
+        "ShatteredMask": false,
+        "DeadlySkull": false,
+        "NeopreneMask": false,
+        "GhoulMask": false,
+        "SlenderMask": false,
+        "FacelessMask": false,
+        "FakeMustache": false,
+        "FakeWhiteBeard": false,
+        "BaddiesRedBeard": false,
+        "BigPipe": false,
+        "HockeyPlayerCaptain": false,
+        "HockeyPlayerBrawler": false,
+        "HockeyPlayerQuiet": false,
+        "DeathKnightMask": false,
+        "GloriousEMask": false,
+        "ZryachiyBalaclavaOpen": false,
+        "ZryachiyBalaclavaClosed": false
     },
     "GodMode": {
+        "_COMMENT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
         "Enabled": false
+    },
+    "Blacklist": {
+        "_COMMENT": "Set to false to remove chance of pmc bots spawning with this item in their inventory.",
+        "Value": false
     }
 }
 ```
