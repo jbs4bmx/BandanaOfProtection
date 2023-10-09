@@ -9,9 +9,6 @@ import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ImporterUtil } from "@spt-aki/utils/ImporterUtil";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 
 let bopdb;
 
@@ -72,15 +69,14 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
     public setConfigOptions(container: DependencyContainer): void
     {
         const db = container.resolve<DatabaseServer>("DatabaseServer").getTables();
-        const configServer = container.resolve<ConfigServer>("ConfigServer");
-        const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
         const handBook = db.templates.handbook.Items;
         const barterScheme = db.traders["5ac3b934156ae10c4430e83c"].assort.barter_scheme;
         const { MainArmor, HeadAreas, Resources, TypeOfArmor, MaterialOfArmor, FaceCover, GodMode, Blacklist } = require("./config.json");
         db.templates.items["55d7217a4bdc2d86028b456d"]._props.Slots[4]._props.filters[0].Filter.push("BandanaOfProtection00xxx");
-        let armor = [];
-        let segments = [];
+        let armor: string[] = [];
+        let segments: string[] = [];
         let fab = "";
+        var throughput = 1;
 
         if (typeof MainArmor.Head === "boolean") {
             if (MainArmor.Head === true) {
@@ -157,15 +153,7 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
         if (typeof FaceCover.ZryachiyBalaclavaOpen === "boolean") { if (FaceCover.ZryachiyBalaclavaOpen) { fab = "assets/content/items/equipment/head_boss_zryachi_balaclava_open/item_equipment_head_boss_zryachi_balaclava_open.bundle"; } }
         if (typeof FaceCover.ZryachiyBalaclavaClosed === "boolean") { if (FaceCover.ZryachiyBalaclavaClosed) { fab = "assets/content/items/equipment/facecover_boss_zryachi_closed/facecover_boss_zryachi_closed.bundle"; } }
 
-        if (typeof GodMode.Enabled === "boolean") { if (GodMode.Enabled) { var throughput = 0 } else { var throughput = 1; } }
-
-        if (typeof Blacklist.Value === "boolean") {
-            if (Blacklist.Value) {
-                botConfig.pmc.vestLoot.blacklist.push("BandanaOfProtection00xxx");
-                botConfig.pmc.pocketLoot.blacklist.push("BandanaOfProtection00xxx");
-                botConfig.pmc.backpackLoot.blacklist.push("BandanaOfProtection00xxx");
-            }
-        }
+        if (typeof GodMode.Enabled === "boolean") { if (GodMode.Enabled) { throughput = 0 } }
 
         for ( var i=0; i<handBook.length; i++ ) { if ( handBook[i].Id == "BandanaOfProtection00xxx" ) { handBook[i].Price = Resources.traderPrice; } }
 

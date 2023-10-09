@@ -26,13 +26,13 @@
         "traderPrice": 79000
     },
     "TypeOfArmor": {
-        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "_COMMENT": "ONLY SET --> ONE <-- OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
         "Heavy": true,
         "Light": false,
         "None": false
     },
     "MaterialOfArmor": {
-        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "_COMMENT": "ONLY SET --> ONE <-- OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
         "UHMWPE": false,
         "Aramid": false,
         "Combined": false,
@@ -43,7 +43,7 @@
         "Glass": false
     },
     "FaceCover": {
-        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+        "_COMMENT": "ONLY SET --> ONE <-- OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
         "HalfMask": true,
         "GP5GasMask": false,
         "GP7GasMask": false,
@@ -87,9 +87,5 @@
     "GodMode": {
         "_COMMENT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
         "Enabled": false
-    },
-    "Blacklist": {
-        "_COMMENT": "Set to false to remove chance of pmc bots spawning with this item in their inventory.",
-        "Value": false
     }
 }

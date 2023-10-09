@@ -116,10 +116,6 @@ You can specify the following configurations in the "\config\config.json" file.
     "GodMode": {
         "_COMMENT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
         "Enabled": false
-    },
-    "Blacklist": {
-        "_COMMENT": "Set to false to remove chance of pmc bots spawning with this item in their inventory.",
-        "Value": false
     }
 }
 ```
