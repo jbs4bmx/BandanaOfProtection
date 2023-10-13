@@ -9,6 +9,10 @@ import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ImporterUtil } from "@spt-aki/utils/ImporterUtil";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
+import { ConfigServer } from "@spt-aki/servers/ConfigServer";
+import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
+import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
+import { IPmcConfig } from "@spt-aki/models/spt/config/IPmcConfig";
 
 let bopdb;
 
@@ -71,6 +75,9 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
         const db = container.resolve<DatabaseServer>("DatabaseServer").getTables();
         const handBook = db.templates.handbook.Items;
         const barterScheme = db.traders["5ac3b934156ae10c4430e83c"].assort.barter_scheme;
+        const configServer = container.resolve<ConfigServer>("ConfigServer");
+        const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
+        const pmcConfig = configServer.getConfig<IPmcConfig>(ConfigTypes.PMC);
         const { MainArmor, HeadAreas, Resources, TypeOfArmor, MaterialOfArmor, FaceCover, GodMode, Blacklist } = require("./config.json");
         db.templates.items["55d7217a4bdc2d86028b456d"]._props.Slots[4]._props.filters[0].Filter.push("BandanaOfProtection00xxx");
         let armor: string[] = [];
@@ -154,6 +161,14 @@ class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
         if (typeof FaceCover.ZryachiyBalaclavaClosed === "boolean") { if (FaceCover.ZryachiyBalaclavaClosed) { fab = "assets/content/items/equipment/facecover_boss_zryachi_closed/facecover_boss_zryachi_closed.bundle"; } }
 
         if (typeof GodMode.Enabled === "boolean") { if (GodMode.Enabled) { throughput = 0 } }
+
+        if (typeof Blacklist.Value === "boolean") {
+            if (Blacklist.Value) {
+                pmcConfig.vestLoot.blacklist.push("BandanaOfProtection00xxx");
+                pmcConfig.pocketLoot.blacklist.push("BandanaOfProtection00xxx");
+                pmcConfig.backpackLoot.blacklist.push("BandanaOfProtection00xxx");
+            }
+        }
 
         for ( var i=0; i<handBook.length; i++ ) { if ( handBook[i].Id == "BandanaOfProtection00xxx" ) { handBook[i].Price = Resources.traderPrice; } }
 

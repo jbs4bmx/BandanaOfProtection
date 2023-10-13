@@ -87,5 +87,9 @@
     "GodMode": {
         "_COMMENT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
         "Enabled": false
+    },
+    "Blacklist": {
+        "_COMMENT": "Set to true to remove chance of pmc bots spawning with this item in their inventory.",
+        "Value": false
     }
 }
