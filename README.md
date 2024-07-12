@@ -1,78 +1,101 @@
 # Bandana of Protection
 
+
+## Description
 This mod adds a new version of the face cover of your choosing and adds armor protection for body parts based on how the configuration file is edited.
 
->Author  : jbs4bmx
+
+## Credits
+Author: jbs4bmx <br>
+Contributors: sugonyak, ShadowXtrex
 
 
+## Armor
+Values of **armorCollider** array assigned by Armor mod options.
 
-### INSTALLATION GUIDE
-Extract the contents of the zip file into the root of your SPT folder. The files and folders will be automatically placed into your mods folder.
+| Mod Option | Configurable Value | Assigned Value |
+|:----- | :----- | :----- |
+| Head | true/false | ParietalHead, BackHead, HeadCommon |
+| Neck | true/false | NeckFront, NeckBack |
+| Eyes | true/false | Eyes |
+| Ears | true/false | Ears |
+| Jaw | true/false | Jaw |
+| Back | true/false | SpineTop, SpineDown |
+| Arms | true/false | LeftUpperArm, LeftForearm, RightUpperArm, RightForearm |
+| Sides | true/false | RightSideChestUp, RightSideChestDown, LeftSideChestUp, LeftSideChestDown |
+| Front | true/false | RibcageUp, RibcageLow |
+| Pelvis | true/false | Pelvis |
+| Buttocks | true/false | PelvisBack |
+| Legs | true/false | RightThigh, RightCalf, LeftThigh, LeftCalf |
 
-Config file is found in the src folder within the mod's folder.
-#
 
-### Configuration Guide
+## Installation
+### How to Install this Mod.
+"[SPT]" = Your SPT folder path
+   1. Extract the contents of the zip file into the root of your [SPT] folder.
+      - That's the same location as "SPT.Server.exe" and "SPT.Launcher.exe".
+   2. Edit the Config to adjust the values to your likeing.
+   3. Start SPT.Server.exe and wait until it fully loads.
+   4. Start SPT.Launcher.exe but do not launch the game.
+   5. Run the cache cleaner found in the launcher's settings menu.
+   6. Now you can launch the game and profit.
 
-You can specify the following configurations in the "\config\config.json" file.
-  1. "Main Armor" and "Head Segments" are boolean values and must be input as true or false.
-    - Values other than true or false will default to true.
-  2. "Resources" are the property values represented by whole numbers. You can input any value from 1 to 9999999.
-    - For RepairCost and traderPrice, any value below 1 or greater than 9999999 will default to 100000.
-    - For Durability, values below 1 or greater than 9999999 will default to 100.
-  3. "FaceCover" allows you to choose your favorite look.
-    - Last option set to true will be used so remember to only set 1 option to TRUE.
-    - IMPORTANT: clean temp files before launching the game client to ensure that the changes to the icon will show up in the game.
-  4. "GodMode" allows you to disable penetration throughput essentially making you impervious to all projectile penetration until the armor is depleted.
-    - Set to "true" to enable.
+### Common Questions
+   1. Where do I report bugs found with the current version of the mod?
+      - You can report bugs for the current version of this mod here: [BoP Mod Page](https://hub.sp-tarkov.com/files/file/142-bandana-of-protection/).
+   2. Why can't I see the different prefab for the facecover?
+      - Make sure you only have one of the options set to true. The remaining prefab options should be false.
+      - Before you launch the game, be sure to clear (delete) the cache files.
 
+
+## Configuration Guide
+Edit '.\config.jsonc' file as desired. <br>
+config.jsonc contents
 ``` json
 {
-    "MainArmor": {
-        "_COMMENT": "What areas of the body do you want to protect?",
+    "ArmorCoverage": {
+        // Customize BoP armor protection areas.
+        // This value must be true or false.
         "Head": true,
-        "Thorax": false,
-        "Stomach": false,
-        "LeftArm": false,
-        "RightArm": false,
-        "LeftLeg": false,
-        "RightLeg": false
+        "Neck": true,
+        "Eyes": true,
+        "Ears": true,
+        "Jaw": true,
+        "Arms": false,
+        "Front": false,
+        "Back": false,
+        "Sides": false,
+        "Pelvis": false,
+        "Buttocks": false,
+        "Legs": false
     },
-    "HeadAreas": {
-        "_COMMENT": "Enable these only if you want particular areas to be protected, otherwise 'Head: true' is enough to protect your head.",
-        "_Notice": "This section is only valid if 'Head' is set to 'true'.",
-        "Top": false,
-        "Nape": false,
-        "LowerNape": false,
-        "Ears": false,
-        "Eyes": false,
-        "Jaws": true
+    "ArmorAmount": {
+        // Customize BoP armor durability level.
+        // This must be a whole number ranging from 1-9999999.
+        "Durability": 1000
     },
     "Resources": {
-        "_COMMENT": "Self-explanatory section.",
-        "RepairCost": 50,
-        "Durability": 1500,
-        "traderPrice": 79000
+        // Customize BoP item properties.
+        "ArmorClass": "10",
+        "ArmorMaterial": "Ceramic",
+        "ArmorType": "Heavy",
+        "ItemWeight": 0.01,
+
+        // This is the amount of protection from bright lights.
+        // This must be any number value between 0 and 1 (e.g., 0, 0.25, 0.5, 0.8, 1, etc.)
+        "BlindnessProtection": 0,
+
+        // I recommend keeping this at or below 100
+        // This must be a whole number ranging from 1-2000.
+        "RepairCost": 100,
+
+        // Customize trader (Ragman) properties
+        "traderPrice": 10000,
+        "traderLoyaltyLevel": 1
     },
-    "TypeOfArmor": {
-        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
-        "Heavy": true,
-        "Light": false,
-        "None": false
-    },
-    "MaterialOfArmor": {
-        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
-        "UHMWPE": false,
-        "Aramid": false,
-        "Combined": false,
-        "Titan": true,
-        "Aluminium": false,
-        "ArmoredSteel": false,
-        "Ceramic": false,
-        "Glass": false
-    },
-    "FaceCover": {
-        "_COMMENT": "ONLY SET ONE OF THE FOLLOWING VALUES TO TRUE. THE REST SHOULD BE FALSE.",
+    "PreFab": {
+        // Customize BoP look (Default: HalfMask).
+        // If more than one is set to 'true', then PreFab will revert back to default.
         "HalfMask": true,
         "GP5GasMask": false,
         "GP7GasMask": false,
@@ -114,16 +137,21 @@ You can specify the following configurations in the "\config\config.json" file.
         "ZryachiyBalaclavaClosed": false
     },
     "GodMode": {
-        "_COMMENT": "Enable this to disable penetration of armor. (i.e., 0 throughput)",
-        "Enabled": false
+        // Disable damage dealt by blunt force trauma.
+        "BluntForce": false,
+
+        // (WIP) Disable damage from projectile penetration of armor.
+        // This value is a work in progress and is not currently implemented in this mod. - Please ignore for now.
+        "Penetration": false
     },
     "Blacklist": {
-        "_COMMENT": "Set to true to remove chance of pmc bots spawning with this item in their inventory.",
-        "Value": false
+        // Set to 'true' to disable item spawning on PMC or Scav bots, or to remove from global loot pools.
+        "pmc": false,
+        "scav": false,
+        "globalLoot": false
     }
 }
 ```
-#
 
-### End
-#
+## Disclaimer
+**This mod is provided _as-is_ with _no guarantee_ of support.**
