@@ -2,185 +2,369 @@
  * Copyright: jbs4bmx
 */
 
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { DatabaseServer } from "@spt/servers/DatabaseServer";
 import { DependencyContainer } from "tsyringe";
-import { IPreAkiLoadMod } from "@spt-aki/models/external/IPreAkiLoadMod";
-import { IPostDBLoadMod } from "@spt-aki/models/externals/IPostDBLoadMod";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ImporterUtil } from "@spt-aki/utils/ImporterUtil";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
-import { IPmcConfig } from "@spt-aki/models/spt/config/IPmcConfig";
+import { IBotConfig } from "@spt/models/spt/config/IBotConfig";
+import { IItemConfig } from "@spt/models/spt/config/IItemConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ImporterUtil } from "@spt/utils/ImporterUtil";
+import { IPmcConfig } from "@spt/models/spt/config/IPmcConfig";
+import { IPostDBLoadMod } from "@spt/models/external/IPostDBLoadMod";
+import { IPreSptLoadMod } from "@spt/models/external/IPreSptLoadMod";
+import { PreSptModLoader } from "@spt/loaders/PreSptModLoader";
+import { VFS } from "@spt/utils/VFS";
+import { jsonc } from "jsonc";
+import path from "path";
 
 let bopdb;
+let itemConfig: IItemConfig;
+let botConfig: IBotConfig;
+let pmcConfig: IPmcConfig;
+let configServer: ConfigServer;
 
-class Bandana implements IPreAkiLoadMod, IPostDBLoadMod
+class Bandana implements IPreSptLoadMod, IPostDBLoadMod
 {
     private pkg;
-    private path = require('path');
-    private modName = this.path.basename(this.path.dirname(__dirname.split('/').pop()));
+    private privatePath = require('path');
+    private modName = this.privatePath.basename(this.privatePath.dirname(__dirname.split('/').pop()));
 
     public postDBLoad(container: DependencyContainer)
     {
         const logger = container.resolve<ILogger>("WinstonLogger");
         const db = container.resolve<DatabaseServer>("DatabaseServer").getTables();
-        const preAkiModLoader = container.resolve<PreAkiModLoader>("PreAkiModLoader");
+        const preSptModLoader = container.resolve<PreSptModLoader>("PreSptModLoader");
         const databaseImporter = container.resolve<ImporterUtil>("ImporterUtil");
         const locales = db.locales.global;
         const handbook = db.templates.handbook.Items;
         this.pkg = require("../package.json");
-        bopdb = databaseImporter.loadRecursive(`${preAkiModLoader.getModPath(this.modName)}database/`);
+        bopdb = databaseImporter.loadRecursive(`${preSptModLoader.getModPath(this.modName)}database/`);
 
-        for (const i_item in bopdb.templates.items.templates) {
-            db.templates.items[i_item] = bopdb.templates.items.templates[i_item];
+        for (const iItem in bopdb.dbItems.templates) {
+            db.templates.items[iItem] = bopdb.dbItems.templates[iItem];
         }
 
-        for (const h_item of bopdb.templates.handbook.Items) {
-            if (!handbook.find(i=>i.Id == h_item.Id)) {
-                handbook.push(h_item);
+        for (const hItem of bopdb.dbItems.handbook.Items) {
+            if (!handbook.find(i=>i.Id == hItem.Id)) {
+                handbook.push(hItem);
             }
         }
 
         for (const localeID in locales) {
-            for (const locale in bopdb.locales.en) {
-                locales[localeID][locale] = bopdb.locales.en[locale];
+            for (const locale in bopdb.dbItems.locales.en) {
+                locales[localeID][locale] = bopdb.dbItems.locales.en[locale];
             }
+        }
+
+        for (const pItem in bopdb.dbItems.prices) {
+            db.templates.prices[pItem] = bopdb.dbItems.prices[pItem];
         }
 
         for (const tradeName in db.traders) {
+            // Ragman
             if ( tradeName === "5ac3b934156ae10c4430e83c" ) {
-                for (const ri_item of bopdb.traders.Ragman.items.list) {
-                    if (!db.traders[tradeName].assort.items.find(i=>i._id == ri_item._id)) {
-                        db.traders[tradeName].assort.items.push(ri_item);
+                for (const riItem of bopdb.ragmanAssort.items) {
+                    if (!db.traders[tradeName].assort.items.find(i=>i._id == riItem._id)) {
+                        db.traders[tradeName].assort.items.push(riItem);
                     }
                 }
-                for (const rb_item in bopdb.traders.Ragman.barter_scheme) {
-                    db.traders[tradeName].assort.barter_scheme[rb_item] = bopdb.traders.Ragman.barter_scheme[rb_item];
+                for (const rbItem in bopdb.ragmanAssort.barter_scheme) {
+                    db.traders[tradeName].assort.barter_scheme[rbItem] = bopdb.ragmanAssort.barter_scheme[rbItem];
                 }
-                for (const rl_item in bopdb.traders.Ragman.loyal_level_items){
-                    db.traders[tradeName].assort.loyal_level_items[rl_item] = bopdb.traders.Ragman.loyal_level_items[rl_item];
+                for (const rlItem in bopdb.ragmanAssort.loyal_level_items) {
+                    db.traders[tradeName].assort.loyal_level_items[rlItem] = bopdb.ragmanAssort.loyal_level_items[rlItem];
                 }
             }
         }
 
-        this.setConfigOptions(container);
+        this.setConfigOptions(container)
 
-        logger.info(`${this.pkg.author}-${this.pkg.name} v${this.pkg.version}: Cached successfully`);
+        logger.info(`${this.pkg.author}-${this.pkg.name} v${this.pkg.version}: Cached Successfully`);
     }
 
     public setConfigOptions(container: DependencyContainer): void
     {
+        const logger = container.resolve<ILogger>("WinstonLogger");
         const db = container.resolve<DatabaseServer>("DatabaseServer").getTables();
         const handBook = db.templates.handbook.Items;
+        const priceList = db.templates.prices;
         const barterScheme = db.traders["5ac3b934156ae10c4430e83c"].assort.barter_scheme;
+        const loyaltyItems = db.traders["5ac3b934156ae10c4430e83c"].assort.loyal_level_items;
         const configServer = container.resolve<ConfigServer>("ConfigServer");
         const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
         const pmcConfig = configServer.getConfig<IPmcConfig>(ConfigTypes.PMC);
-        const { MainArmor, HeadAreas, Resources, TypeOfArmor, MaterialOfArmor, FaceCover, GodMode, Blacklist } = require("./config.json");
-        db.templates.items["55d7217a4bdc2d86028b456d"]._props.Slots[4]._props.filters[0].Filter.push("BandanaOfProtection00xxx");
-        let armor: string[] = [];
-        let segments: string[] = [];
-        let fab = "";
-        var throughput = 1;
+        const itemConfig = configServer.getConfig<IItemConfig>(ConfigTypes.ITEM);
+        const vfs = container.resolve<VFS>("VFS");
+        const { ArmorCoverage, ArmorAmount, Resources, PreFab, GodMode, Blacklist } = jsonc.parse(vfs.readFile(path.resolve(__dirname, "../config.jsonc")));
 
-        if (typeof MainArmor.Head === "boolean") {
-            if (MainArmor.Head === true) {
-                armor.push("Head")
-                if (typeof HeadAreas.Top === "boolean") { if (HeadAreas.Top === true) { segments.push("Top"); } }
-                if (typeof HeadAreas.Nape === "boolean") { if (HeadAreas.Nape === true) { segments.push("Nape"); } }
-                if (typeof HeadAreas.LowerNape === "boolean") { if (HeadAreas.LowerNape === true) { segments.push("LowerNape"); } }
-                if (typeof HeadAreas.Ears === "boolean") { if (HeadAreas.Ears === true) { segments.push("Ears"); } }
-                if (typeof HeadAreas.Eyes === "boolean") { if (HeadAreas.Eyes === true) { segments.push("Eyes"); } }
-                if (typeof HeadAreas.Jaws === "boolean") { if (HeadAreas.Jaws === true) { segments.push("Jaws"); } }
+        db.templates.items["55d7217a4bdc2d86028b456d"]._props.Slots[14]._props.filters[0].Filter.push("660877b848b061d3eca2579f");
+
+        let colliders: string[] = [];
+        //var penPower = 1;
+
+        if (typeof Resources.RepairCost === "number") { if ((Resources.RepairCost < 1) || (Resources.RepairCost > 2000)) { Resources.RepairCost = 1000; } }
+        if (typeof ArmorAmount.Durability === "number") { if ((ArmorAmount.Durability < 1) || (ArmorAmount.Durability > 9999999)) { ArmorAmount.Durability = 1500; } }
+        if (typeof Resources.traderPrice === "number") { if ((Resources.traderPrice < 1) || (Resources.traderPrice > 9999999)) { Resources.traderPrice = 69420; } }
+
+        //Armor Colliders
+        if (typeof ArmorCoverage.Head === "boolean") { if (ArmorCoverage.Head === true) { colliders.push("ParietalHead", "BackHead", "HeadCommon"); } }
+        if (typeof ArmorCoverage.Neck === "boolean") { if (ArmorCoverage.Neck === true) { colliders.push("NeckFront", "NeckBack"); } }
+        if (typeof ArmorCoverage.Eyes === "boolean") { if (ArmorCoverage.Eyes === true) { colliders.push("Eyes"); } }
+        if (typeof ArmorCoverage.Ears === "boolean") { if (ArmorCoverage.Ears === true) { colliders.push("Ears"); } }
+        if (typeof ArmorCoverage.Jaw === "boolean") { if (ArmorCoverage.Jaw === true) { colliders.push("Jaw"); } }
+        if (typeof ArmorCoverage.Arms === "boolean") { if (ArmorCoverage.Arms === true) { colliders.push("LeftUpperArm", "LeftForearm","RightUpperArm", "RightForearm"); } }
+        if (typeof ArmorCoverage.Front === "boolean") { if (ArmorCoverage.Front === true) { colliders.push("RibcageUp","RibcageLow"); } }
+        if (typeof ArmorCoverage.Back === "boolean") { if (ArmorCoverage.Back === true) { colliders.push("SpineTop", "SpineDown"); } }
+        if (typeof ArmorCoverage.Sides === "boolean") { if (ArmorCoverage.Sides === true) { colliders.push("RightSideChestUp", "RightSideChestDown", "LeftSideChestUp", "LeftSideChestDown"); } }
+        if (typeof ArmorCoverage.Pelvis === "boolean") { if (ArmorCoverage.Pelvis === true) { colliders.push("Pelvis"); } }
+        if (typeof ArmorCoverage.Buttocks === "boolean") { if (ArmorCoverage.Buttocks === true) { colliders.push("PelvisBack"); } }
+        if (typeof ArmorCoverage.Legs === "boolean") { if (ArmorCoverage.Legs === true) { colliders.push("LeftThigh", "LeftCalf","RightThigh", "RightCalf"); } }
+
+        //Armor Plate Colliders = N/A
+
+        //Trader Settings (from Resources)
+        for ( let i=0; i<handBook.length; i++ ) {
+            if ( handBook[i].Id == "660877b848b061d3eca2579f" ) {
+                handBook[i].Price = Resources.traderPrice;
             }
         }
-        if (typeof MainArmor.Thorax === "boolean") { if (MainArmor.Thorax === true) { armor.push("Chest"); } }
-        if (typeof MainArmor.Stomach === "boolean") { if (MainArmor.Stomach === true) { armor.push("Stomach"); } }
-        if (typeof MainArmor.LeftArm === "boolean") { if (MainArmor.LeftArm === true) { armor.push("LeftArm"); } }
-        if (typeof MainArmor.RightArm === "boolean") { if (MainArmor.RightArm === true) { armor.push("RightArm"); } }
-        if (typeof MainArmor.LeftLeg === "boolean") { if (MainArmor.LeftLeg === true) { armor.push("LeftLeg"); } }
-        if (typeof MainArmor.RightLeg === "boolean") { if (MainArmor.RightLeg === true) { armor.push("RightLeg"); } }
-
-        if (typeof Resources.RepairCost === "number") { if (!(0 < Resources.RepairCost && Resources.RepairCost < 9999999)) { Resources.RepairCost = 1000; } }
-        if (typeof Resources.Durability === "number") { if (!(0 < Resources.Durability && Resources.Durability < 9999999)) { Resources.Durability = 1500; } }
-        if (typeof Resources.traderPrice === "number") { if (!(0 < Resources.traderPrice && Resources.traderPrice < 9999999)) { Resources.traderPrice = 69420; } }
-
-        if (typeof TypeOfArmor.Heavy === "boolean") { if ( TypeOfArmor.Heavy ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorType = "Heavy"; } }
-        if (typeof TypeOfArmor.Light === "boolean") { if ( TypeOfArmor.Light ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorType = "Light"; } }
-        if (typeof TypeOfArmor.None === "boolean") { if ( TypeOfArmor.None ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorType = "None"; } }
-
-        if (typeof MaterialOfArmor.UHMWPE === "boolean" ) { if ( MaterialOfArmor.UHMWPE ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "UHMWPE"; } }
-        if (typeof MaterialOfArmor.Aramid === "boolean" ) { if ( MaterialOfArmor.Aramid ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Aramid"; } }
-        if (typeof MaterialOfArmor.Combined === "boolean" ) { if ( MaterialOfArmor.Combined ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Combined"; } }
-        if (typeof MaterialOfArmor.Titan === "boolean" ) { if ( MaterialOfArmor.Titan ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Titan"; } }
-        if (typeof MaterialOfArmor.Aluminium === "boolean" ) { if ( MaterialOfArmor.Aluminium ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Aluminium"; } }
-        if (typeof MaterialOfArmor.ArmoredSteel === "boolean" ) { if ( MaterialOfArmor.ArmoredSteel ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "ArmoredSteel"; } }
-        if (typeof MaterialOfArmor.Ceramic === "boolean" ) { if ( MaterialOfArmor.Ceramic ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Ceramic"; } }
-        if (typeof MaterialOfArmor.Glass === "boolean" ) { if ( MaterialOfArmor.Glass ) { db.templates.items["BandanaOfProtection00xxx"]._props.ArmorMaterial = "Glass"; } }
-
-        if (typeof FaceCover.HalfMask === "boolean") { if (FaceCover.HalfMask) { fab = "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle"; } }
-        if (typeof FaceCover.GP5GasMask === "boolean") { if (FaceCover.GP5GasMask) { fab = "assets/content/items/equipment/facecover_gasmask_gp5/item_equipment_facecover_gasmask_gp5.bundle"; } }
-        if (typeof FaceCover.GP7GasMask === "boolean") { if (FaceCover.GP7GasMask) { fab = "assets/content/items/equipment/facecover_gasmask_gp7/item_equipment_facecover_gasmask_gp7.bundle"; } }
-        if (typeof FaceCover.Respirator === "boolean") { if (FaceCover.Respirator) { fab = "assets/content/items/equipment/facecover_gasmask_3m/item_equipment_facecover_gasmask_3m.bundle"; } }
-        if (typeof FaceCover.DevBalaclava === "boolean") { if (FaceCover.DevBalaclava) { fab = "assets/content/items/equipment/facecover_balaclava/item_equipment_facecover_balaclava_development.bundle"; } }
-        if (typeof FaceCover.JasonMask === "boolean") { if (FaceCover.JasonMask) { fab = "assets/content/items/equipment/facecover_halloween_jason/item_equipment_facecover_halloween_jason.bundle"; } }
-        if (typeof FaceCover.MichealMask === "boolean") { if (FaceCover.MichealMask) { fab = "assets/content/items/equipment/facecover_halloween_michael/item_equipment_facecover_halloween_micheal.bundle"; } }
-        if (typeof FaceCover.PestilyMask === "boolean") { if (FaceCover.PestilyMask) { fab = "assets/content/items/equipment/facecover_pestily/item_equipment_facecover_pestily.bundle"; } }
-        if (typeof FaceCover.SmokeBalaclava === "boolean") { if (FaceCover.SmokeBalaclava) { fab = "assets/content/items/equipment/facecover_smoke/item_equipment_head_smoke.bundle"; } }
-        if (typeof FaceCover.TagillaGorilla === "boolean") { if (FaceCover.TagillaGorilla) { fab = "assets/content/items/equipment/facecover_welding/item_equipment_facecover_welding_gorilla.bundle"; } }
-        if (typeof FaceCover.TagillaUBEY === "boolean") { if (FaceCover.TagillaUBEY) { fab = "assets/content/items/equipment/facecover_welding/item_equipment_facecover_welding_kill.bundle"; } }
-        if (typeof FaceCover.GhostBalaclava === "boolean") { if (FaceCover.GhostBalaclava) { fab = "assets/content/items/equipment/facecover_balaclavaskull/item_equipment_facecover_balaclavaskull.bundle"; } }
-        if (typeof FaceCover.MomexBalaclava === "boolean") { if (FaceCover.MomexBalaclava) { fab = "assets/content/items/equipment/facecover_nomexbalaclava/item_equipment_facecover_nomexbalaclava.bundle"; } }
-        if (typeof FaceCover.ColdFearBalaclava === "boolean") { if (FaceCover.ColdFearBalaclava) { fab = "assets/content/items/equipment/facecover_coldgear/item_equipment_facecover_coldgear.bundle"; } }
-        if (typeof FaceCover.Rivals2021Balaclava === "boolean") { if (FaceCover.Rivals2021Balaclava) { fab = "assets/content/items/equipment/facecover_coldgear/item_equipment_facecover_coldgear_twitch.bundle"; } }
-        if (typeof FaceCover.Balaclava === "boolean") { if (FaceCover.Balaclava) { fab = "assets/content/items/equipment/facecover_balaclava/item_equipment_facecover_balaclava.bundle"; } }
-        if (typeof FaceCover.RoninBallistic === "boolean") { if (FaceCover.RoninBallistic) { fab = "assets/content/items/equipment/facecover_devtac/item_equipment_facecover_devtac.bundle"; } }
-        if (typeof FaceCover.TwitchRivals2020Mask === "boolean") { if (FaceCover.TwitchRivals2020Mask) { fab = "assets/content/items/equipment/facecover_redflame/item_equipment_facecover_redflame_twitch.bundle"; } }
-        if (typeof FaceCover.TwitchRivals2020HalfMask === "boolean") { if (FaceCover.TwitchRivals2020HalfMask) { fab = "assets/content/items/equipment/facecover_shroud/item_equipment_facecover_shroud_twitch.bundle"; } }
-        if (typeof FaceCover.GreenShemagh === "boolean") { if (FaceCover.GreenShemagh) { fab = "assets/content/items/equipment/facecover_shemagh/item_equipment_facecover_shemagh.bundle"; } }
-        if (typeof FaceCover.TanShemagh === "boolean") { if (FaceCover.TanShemagh) { fab = "assets/content/items/equipment/facecover_shemagh_02/item_equipment_facecover_shemagh_02.bundle"; } }
-        if (typeof FaceCover.ShroudMask === "boolean") { if (FaceCover.ShroudMask) { fab = "assets/content/items/equipment/facecover_shroud/item_equipment_facecover_shroud.bundle"; } }
-        if (typeof FaceCover.ShatteredMask === "boolean") { if (FaceCover.ShatteredMask) { fab = "assets/content/items/equipment/facecover_shatteredmask/item_equipment_facecover_shatteredmask.bundle"; } }
-        if (typeof FaceCover.DeadlySkull === "boolean") { if (FaceCover.DeadlySkull) { fab = "assets/content/items/equipment/facecover_skullmask/item_equipment_facecover_skullmask.bundle"; } }
-        if (typeof FaceCover.NeopreneMask === "boolean") { if (FaceCover.NeopreneMask) { fab = "assets/content/items/equipment/facecover_redflame/item_equipment_facecover_redflame.bundle"; } }
-        if (typeof FaceCover.GhoulMask === "boolean") { if (FaceCover.GhoulMask) { fab = "assets/content/items/equipment/facecover_halloween_vampire/item_equipment_facecover_halloween_vampire.bundle"; } }
-        if (typeof FaceCover.SlenderMask === "boolean") { if (FaceCover.SlenderMask) { fab = "assets/content/items/equipment/facecover_halloween_slander/item_equipment_facecover_halloween_slander.bundle"; } }
-        if (typeof FaceCover.FacelessMask === "boolean") { if (FaceCover.FacelessMask) { fab = "assets/content/items/equipment/facecover_halloween_kaonasi/item_equipment_facecover_halloween_kaonasi.bundle"; } }
-        if (typeof FaceCover.FakeMustache === "boolean") { if (FaceCover.FakeMustache) { fab = "assets/content/items/equipment/mustache/item_equipment_mustache.bundle"; } }
-        if (typeof FaceCover.FakeWhiteBeard === "boolean") { if (FaceCover.FakeWhiteBeard) { fab = "assets/content/items/equipment/item_beard/item_beard.bundle"; } }
-        if (typeof FaceCover.BaddiesRedBeard === "boolean") { if (FaceCover.BaddiesRedBeard) { fab = "assets/content/items/equipment/item_equipment_facecover_beard_red.bundle"; } }
-        if (typeof FaceCover.BigPipe === "boolean") { if (FaceCover.BigPipe) { fab = "assets/content/items/equipment/item_equipment_facecover_pipe.bundle"; } }
-        if (typeof FaceCover.HockeyPlayerCaptain === "boolean") { if (FaceCover.HockeyPlayerCaptain) { fab = "assets/content/items/equipment/item_equipment_facecover_hockey_01.bundle"; } }
-        if (typeof FaceCover.HockeyPlayerBrawler === "boolean") { if (FaceCover.HockeyPlayerBrawler) { fab = "assets/content/items/equipment/item_equipment_facecover_hockey_02.bundle"; } }
-        if (typeof FaceCover.HockeyPlayerQuiet === "boolean") { if (FaceCover.HockeyPlayerQuiet) { fab = "assets/content/items/equipment/item_equipment_facecover_hockey_03.bundle"; } }
-        if (typeof FaceCover.DeathKnightMask === "boolean") { if (FaceCover.DeathKnightMask) { fab = "assets/content/items/equipment/item_equipment_facecover_boss_blackknight.bundle"; } }
-        if (typeof FaceCover.GloriousEMask === "boolean") { if (FaceCover.GloriousEMask) { fab = "assets/content/items/equipment/item_equipment_facecover_glorious.bundle"; } }
-        if (typeof FaceCover.ZryachiyBalaclavaOpen === "boolean") { if (FaceCover.ZryachiyBalaclavaOpen) { fab = "assets/content/items/equipment/head_boss_zryachi_balaclava_open/item_equipment_head_boss_zryachi_balaclava_open.bundle"; } }
-        if (typeof FaceCover.ZryachiyBalaclavaClosed === "boolean") { if (FaceCover.ZryachiyBalaclavaClosed) { fab = "assets/content/items/equipment/facecover_boss_zryachi_closed/facecover_boss_zryachi_closed.bundle"; } }
-
-        if (typeof GodMode.Enabled === "boolean") { if (GodMode.Enabled) { throughput = 0 } }
-
-        if (typeof Blacklist.Value === "boolean") {
-            if (Blacklist.Value) {
-                pmcConfig.vestLoot.blacklist.push("BandanaOfProtection00xxx");
-                pmcConfig.pocketLoot.blacklist.push("BandanaOfProtection00xxx");
-                pmcConfig.backpackLoot.blacklist.push("BandanaOfProtection00xxx");
+        for ( let i=0; i<priceList.length; i++ ) {
+            if ( priceList[i] == "660877b848b061d3eca2579f" ) {
+                priceList[i] = Resources.traderPrice;
+            }
+        }
+        for (const barterItem in barterScheme) {
+            if (barterItem == "660877b848b061d3eca2579f" ) {
+                barterScheme[barterItem][0][0].count = Resources.traderPrice;
+            }
+        }
+        for (const loyalItem in loyaltyItems) {
+            if (loyalItem == "660877b848b061d3eca2579f" ) {
+                loyaltyItems[loyalItem] = Resources.traderLoyaltyLevel;
             }
         }
 
-        for ( var i=0; i<handBook.length; i++ ) { if ( handBook[i].Id == "BandanaOfProtection00xxx" ) { handBook[i].Price = Resources.traderPrice; } }
+        //PreFab
+        let selectedValue: string | null = null;
+        let prefabCount = 0;
 
-        for (const barterItem in barterScheme) { if (barterItem == "BandanaOfProtection00xxx") { barterScheme[barterItem][0][0].count = Resources.traderPrice; } }
+        for (const key in PreFab) {
+            if (PreFab.key === true) {
+                if (prefabCount === 0) {
+                    selectedValue = key;
+                    prefabCount++;
+                } else {
+                    logger.error("More than one property value for PreFab is set to 'true'. Defaulting to HalfMask.");
+                    db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle";
+                    break;
+                }
+            }
+        }
+        switch ( selectedValue ) {
+            case "HalfMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle";
+                break;
+            }
+            case "GP5GasMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_gasmask_gp5/item_equipment_facecover_gasmask_gp5.bundle";
+                break;
+            }
+            case "GP7GasMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_gasmask_gp7/item_equipment_facecover_gasmask_gp7.bundle";
+                break;
+            }
+            case "Respirator": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_gasmask_3m/item_equipment_facecover_gasmask_3m.bundle";
+                break;
+            }
+            case "DevBalaclava": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_balaclava/item_equipment_facecover_balaclava_development.bundle";
+                break;
+            }
+            case "JasonMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_halloween_jason/item_equipment_facecover_halloween_jason.bundle";
+                break;
+            }
+            case "MichealMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_halloween_michael/item_equipment_facecover_halloween_micheal.bundle";
+                break;
+            }
+            case "PestilyMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_pestily/item_equipment_facecover_pestily.bundle";
+                break;
+            }
+            case "SmokeBalaclava": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_smoke/item_equipment_head_smoke.bundle";
+                break;
+            }
+            case "TagillaGorilla": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_welding/item_equipment_facecover_welding_gorilla.bundle";
+                break;
+            }
+            case "TagillaUBEY": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_welding/item_equipment_facecover_welding_kill.bundle";
+                break;
+            }
+            case "GhostBalaclava": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_balaclavaskull/item_equipment_facecover_balaclavaskull.bundle";
+                break;
+            }
+            case "MomexBalaclava": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_nomexbalaclava/item_equipment_facecover_nomexbalaclava.bundle";
+                break;
+            }
+            case "ColdFearBalaclava": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_coldgear/item_equipment_facecover_coldgear.bundle";
+                break;
+            }
+            case "Rivals2021Balaclava": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_coldgear/item_equipment_facecover_coldgear_twitch.bundle";
+                break;
+            }
+            case "Balaclava": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_balaclava/item_equipment_facecover_balaclava.bundle";
+                break;
+            }
+            case "RoninBallistic": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_devtac/item_equipment_facecover_devtac.bundle";
+                break;
+            }
+            case "TwitchRivals2020Mask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_redflame/item_equipment_facecover_redflame_twitch.bundle";
+                break;
+            }
+            case "TwitchRivals2020HalfMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_shroud/item_equipment_facecover_shroud_twitch.bundle";
+                break;
+            }
+            case "GreenShemagh": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_shemagh/item_equipment_facecover_shemagh.bundle";
+                break;
+            }
+            case "TanShemagh": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_shemagh_02/item_equipment_facecover_shemagh_02.bundle";
+                break;
+            }
+            case "ShroudMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_shroud/item_equipment_facecover_shroud.bundle";
+                break;
+            }
+            case "ShatteredMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_shatteredmask/item_equipment_facecover_shatteredmask.bundle";
+                break;
+            }
+            case "DeadlySkull": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_skullmask/item_equipment_facecover_skullmask.bundle";
+                break;
+            }
+            case "NeopreneMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_redflame/item_equipment_facecover_redflame.bundle";
+                break;
+            }
+            case "GhoulMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_halloween_vampire/item_equipment_facecover_halloween_vampire.bundle";
+                break;
+            }
+            case "SlenderMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_halloween_slander/item_equipment_facecover_halloween_slander.bundle";
+                break;
+            }
+            case "FacelessMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_halloween_kaonasi/item_equipment_facecover_halloween_kaonasi.bundle";
+                break;
+            }
+            case "FakeMustache": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/mustache/item_equipment_mustache.bundle";
+                break;
+            }
+            case "FakeWhiteBeard": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/item_beard/item_beard.bundle";
+                break;
+            }
+            case "BaddiesRedBeard": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/item_equipment_facecover_beard_red.bundle";
+                break;
+            }
+            case "BigPipe": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/item_equipment_facecover_pipe.bundle";
+                break;
+            }
+            case "HockeyPlayerCaptain": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/item_equipment_facecover_hockey_01.bundle";
+                break;
+            }
+            case "HockeyPlayerBrawler": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/item_equipment_facecover_hockey_02.bundle";
+                break;
+            }
+            case "HockeyPlayerQuiet": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/item_equipment_facecover_hockey_03.bundle";
+                break;
+            }
+            case "DeathKnightMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/item_equipment_facecover_boss_blackknight.bundle";
+                break;
+            }
+            case "GloriousEMask": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/item_equipment_facecover_glorious.bundle";
+                break;
+            }
+            case "ZryachiyBalaclavaOpen": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/head_boss_zryachi_balaclava_open/item_equipment_head_boss_zryachi_balaclava_open.bundle";
+                break;
+            }
+            case "ZryachiyBalaclavaClosed": {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_boss_zryachi_closed/facecover_boss_zryachi_closed.bundle";
+                break;
+            }
+            default: {
+                db.templates.items["660877b848b061d3eca2579f"]._props.path = "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle";
+                break;
+            }
+        }
 
-        db.templates.items["BandanaOfProtection00xxx"]._props.Prefab.path = fab;
-        db.templates.items["BandanaOfProtection00xxx"]._props.RepairCost = Resources.RepairCost;
-        db.templates.items["BandanaOfProtection00xxx"]._props.Durability = Resources.Durability;
-        db.templates.items["BandanaOfProtection00xxx"]._props.MaxDurability = Resources.Durability;
-        db.templates.items["BandanaOfProtection00xxx"]._props.armorZone = armor;
-        db.templates.items["BandanaOfProtection00xxx"]._props.headSegments = segments;
-        if ( throughput === 0 ) { db.templates.items["BandanaOfProtection00xxx"]._props.BluntThroughput = 0; }
+        //Resources
+        db.templates.items["660877b848b061d3eca2579f"]._props.ArmorMaterial = Resources.ArmorMaterial;
+        db.templates.items["660877b848b061d3eca2579f"]._props.ArmorType = Resources.ArmorType;
+        db.templates.items["660877b848b061d3eca2579f"]._props.BlindnessProtection = Resources.BlindnessProtection;
+        db.templates.items["660877b848b061d3eca2579f"]._props.Durability = ArmorAmount.Durability;
+        db.templates.items["660877b848b061d3eca2579f"]._props.MaxDurability = ArmorAmount.Durability;
+        db.templates.items["660877b848b061d3eca2579f"]._props.ArmorClass = Resources.ArmorClass;
+        db.templates.items["660877b848b061d3eca2579f"]._props.Weight = Resources.ItemWeight;
+        db.templates.items["660877b848b061d3eca2579f"]._props.RepairCost = Resources.RepairCost;
+        db.templates.items["660877b848b061d3eca2579f"]._props.armorColliders = colliders;
+        //db.templates.items["660877b848b061d3eca2579f"]._props.armorPlateColliders = colPlates;
+
+        //GodMode
+        if (typeof GodMode.BluntForce === "boolean") {
+            if (GodMode.BluntForce === true) {
+                db.templates.items["660877b848b061d3eca2579f"]._props.BluntThroughput = 0;
+                db.templates.items["660877b848b061d3eca2579f"]._props.Indestructibility = 1;
+            }
+        }
+        //if (typeof GodMode.Penetration === "boolean") { if (GodMode.Penetration === true) { penPower = 0; break;}
+
+        //Blacklists
+        if (typeof Blacklist.pmc === "boolean") {
+            if (Blacklist.pmc === true) {
+                pmcConfig.vestLoot.blacklist.push("660877b848b061d3eca2579f");
+                pmcConfig.pocketLoot.blacklist.push("660877b848b061d3eca2579f");
+                pmcConfig.backpackLoot.blacklist.push("660877b848b061d3eca2579f");
+            }
+        }
+        if (typeof Blacklist.scav === "boolean") {
+            if (Blacklist.scav === true) {
+                botConfig.vestLoot.blacklist.push("660877b848b061d3eca2579f");
+                botConfig.pocketLoot.blacklist.push("660877b848b061d3eca2579f");
+                botConfig.backpackLoot.blacklist.push("660877b848b061d3eca2579f");
+            }
+        }
+        if (typeof Blacklist.globalLoot === "boolean") {
+            if (Blacklist.globalLoot === true) {
+                itemConfig.blacklist.push("660877b848b061d3eca2579f");
+            }
+        }
     }
 }
 

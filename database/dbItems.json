@@ -1,0 +1,122 @@
+{
+	"templates": {
+        "660877b848b061d3eca2579f": {
+            "_id": "660877b848b061d3eca2579f",
+            "_name": "BandOfPro",
+            "_parent": "5a341c4686f77469e155819e",
+            "_type": "Item",
+            "_props": {
+                "AnimationVariantsNumber": 0,
+                "ArmorMaterial": "UHMWPE",
+                "ArmorType": "None",
+                "BackgroundColor": "red",
+                "BlindnessProtection": 0,
+                "BlocksEarpiece": false,
+                "BlocksEyewear": false,
+                "BlocksFaceCover": false,
+                "BlocksHeadwear": false,
+                "BluntThroughput": 0.2,
+                "CanPutIntoDuringTheRaid": true,
+                "CanRequireOnRagfair": false,
+                "CanSellOnRagfair": true,
+                "CantRemoveFromSlotsDuringRaid": [],
+                "ConflictingItems": [],
+                "DeafStrength": "None",
+                "Description": "A face cover that provides advanced protection for the weak at heart.",
+                "DiscardingBlock": false,
+                "DiscardLimit": -1,
+                "DropSoundType": "None",
+                "Durability": 100,
+                "ExaminedByDefault": false,
+                "ExamineExperience": 10,
+                "ExamineTime": 1,
+                "ExtraSizeDown": 0,
+                "ExtraSizeForceAdd": false,
+                "ExtraSizeLeft": 0,
+                "ExtraSizeRight": 0,
+                "ExtraSizeUp": 0,
+                "FaceShieldComponent": false,
+                "FaceShieldMask": "NoMask",
+                "Grids": [],
+                "HasHinge": false,
+                "Height": 1,
+                "HideEntrails": false,
+                "Indestructibility": 0.8,
+                "InsuranceDisabled": false,
+                "IsAlwaysAvailableForInsurance": false,
+                "IsLockedafterEquip": false,
+                "IsSpecialSlotOnly": false,
+                "IsUnbuyable": false,
+                "IsUndiscardable": false,
+                "IsUngivable": false,
+                "IsUnremovable": false,
+                "IsUnsaleable": false,
+                "ItemSound": "item_cloth_generic",
+                "LootExperience": 1000,
+                "MaterialType": "BodyArmor",
+                "MaxDurability": 100,
+                "MergesWithChildren": false,
+                "Name": "Bandana of Protection",
+                "NotShownInSlot": false,
+                "Prefab": {
+                    "path": "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle",
+                    "rcid": ""
+                },
+                "QuestItem": false,
+                "QuestStashMaxCount": 0,
+                "RagFairCommissionModifier": 1,
+                "RepairCost": 0,
+                "RepairSpeed": 0,
+                "RicochetParams": {
+                    "x": 0.9,
+					"y": 0.4,
+					"z": 70
+                },
+                "ShortName": "BoP",
+                "Slots": [],
+                "StackMaxSize": 1,
+                "StackObjectsCount": 1,
+                "Unlootable": false,
+                "UnlootableFromSide": [
+                    "Bear",
+					"Usec",
+					"Savage"
+                ],
+                "UnlootableFromSlot": "FirstPrimaryWeapon",
+                "UsePrefab": {
+                    "path": "",
+                    "rcid": ""
+                },
+                "Weight": 0.01,
+                "Width": 1,
+                "armorClass": "6",
+                "armorColliders": [],
+                "armorPlateColliders": [],
+                "mousePenalty": 0,
+                "speedPenaltyPercent": 0,
+                "weaponErgonomicPenalty": 0
+            },
+            "_orig": "572b7fa524597762b747ce82",
+            "_proto": "572b7d8524597762b472f9d1"
+        }
+    },
+    "prices": {
+        "660877b848b061d3eca2579f": 69420
+    },
+    "handbook": {
+        "Items": [
+            {
+                "Id": "660877b848b061d3eca2579f",
+                "ParentId": "5b5f701386f774093f2ecf0f",
+                "Price": 69420
+            }
+        ]
+    },
+    "locales": {
+        "en": {
+            "660877b848b061d3eca2579f Name": "Bandana of Protection",
+        	"660877b848b061d3eca2579f ShortName": "BoP",
+	        "660877b848b061d3eca2579f Description": "A bandana that provides advanced protection for the weak at heart. This bandana provides the extra courage needed by the cowardly lions of Tarkov. You could escape by following the blood stained roads out of Tarkov... or you could just plow your way through scavs and PMCs while wearing this."
+        }
+    }
+}

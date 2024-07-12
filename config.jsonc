@@ -1,0 +1,99 @@
+{
+    "ArmorCoverage": {
+        // Customize BoP armor protection areas.
+        // This value must be true or false.
+        "Head": true,
+        "Neck": true,
+        "Eyes": true,
+        "Ears": true,
+        "Jaw": true,
+        "Arms": false,
+        "Front": false,
+        "Back": false,
+        "Sides": false,
+        "Pelvis": false,
+        "Buttocks": false,
+        "Legs": false
+    },
+    "ArmorAmount": {
+        // Customize BoP armor durability level.
+        // This must be a whole number ranging from 1-9999999.
+        "Durability": 1000
+    },
+    "Resources": {
+        // Customize BoP item properties.
+        "ArmorClass": "10",
+        "ArmorMaterial": "Ceramic",
+        "ArmorType": "Heavy",
+        "ItemWeight": 0.01,
+
+        // This is the amount of protection from bright lights.
+        // This must be any number value between 0 and 1 (e.g., 0, 0.25, 0.5, 0.8, 1, etc.)
+        "BlindnessProtection": 0,
+
+        // I recommend keeping this at or below 100
+        // This must be a whole number ranging from 1-2000.
+        "RepairCost": 100,
+
+        // Customize trader (Ragman) properties
+        "traderPrice": 10000,
+        "traderLoyaltyLevel": 1
+    },
+    "PreFab": {
+        // Customize BoP look (Default: HalfMask).
+        // If more than one is set to 'true', then PreFab will revert back to default.
+        "HalfMask": true,
+        "GP5GasMask": false,
+        "GP7GasMask": false,
+        "Respirator": false,
+        "DevBalaclava": false,
+        "JasonMask": false,
+        "MichealMask": false,
+        "PestilyMask": false,
+        "SmokeBalaclava": false,
+        "TagillaGorilla": false,
+        "TagillaUBEY": false,
+        "GhostBalaclava": false,
+        "MomexBalaclava": false,
+        "ColdFearBalaclava": false,
+        "Rivals2021Balaclava": false,
+        "Balaclava": false,
+        "RoninBallistic": false,
+        "TwitchRivals2020Mask": false,
+        "TwitchRivals2020HalfMask": false,
+        "GreenShemagh": false,
+        "TanShemagh": false,
+        "ShroudMask": false,
+        "ShatteredMask": false,
+        "DeadlySkull": false,
+        "NeopreneMask": false,
+        "GhoulMask": false,
+        "SlenderMask": false,
+        "FacelessMask": false,
+        "FakeMustache": false,
+        "FakeWhiteBeard": false,
+        "BaddiesRedBeard": false,
+        "BigPipe": false,
+        "HockeyPlayerCaptain": false,
+        "HockeyPlayerBrawler": false,
+        "HockeyPlayerQuiet": false,
+        "DeathKnightMask": false,
+        "GloriousEMask": false,
+        "ZryachiyBalaclavaOpen": false,
+        "ZryachiyBalaclavaClosed": false
+    },
+    "GodMode": {
+        // Disable damage dealt by blunt force trauma.
+        "BluntForce": false,
+
+        // (WIP) Disable damage from projectile penetration of armor.
+        // This value is a work in progress and is not currently implemented in this mod. - Please ignore for now.
+        "Penetration": false
+    },
+    "Blacklist": {
+        // Set to 'true' to disable item spawning on PMC or Scav bots, or to remove from global loot pools.
+        "pmc": false,
+        "scav": false,
+        "globalLoot": false
+    }
+}
