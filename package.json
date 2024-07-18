@@ -1,10 +1,12 @@
 {
     "name": "BandanaOfProtection",
-    "version": "390.0.1",
-    "main": "src/BoP.js",
-    "license": "MIT",
-    "author": "jbs4bmx",
+    "version": "390.0.2",
     "sptVersion": "3.9.*",
+    "loadBefore": [],
+    "loadAfter": [],
+    "incompatibilities": [],
+    "isBundleMod": false,
+    "main": "src/BoP.js",
     "scripts": {
         "setup": "npm i",
         "build": "node ./build.mjs",
@@ -18,9 +20,11 @@
         "eslint": "8.57",
         "fs-extra": "11.2",
         "ignore": "^5.2",
-        "os": "^0.1",
         "tsyringe": "4.8.0",
         "typescript": "5.4",
         "winston": "3.12"
-    }
+    },
+    "author": "jbs4bmx",
+    "contributors": [],
+    "license": "MIT"
 }

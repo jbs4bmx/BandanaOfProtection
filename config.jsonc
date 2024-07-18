@@ -91,9 +91,8 @@
         "Penetration": false
     },
     "Blacklist": {
-        // Set to 'true' to disable item spawning on PMC or Scav bots, or to remove from global loot pools.
+        // Set to 'true' to disable item spawning on PMC bots, or to remove from global loot pools.
         "pmc": false,
-        "scav": false,
         "globalLoot": false
     }
 }
