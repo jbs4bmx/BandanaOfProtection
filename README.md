@@ -121,7 +121,7 @@ Follow these steps to install and configure the mod:
 <!-- CONFIGURATION EXAMPLES -->
 ## Configuration
 Edit '.\config.jsonc' file as desired. Specify which areas to protect, the amount of protection, and which item you want BoP to look like. You can even customize trader pricing and loyalty level requirements to make it easier or harder on yourself to acquire this item.<br>
-``` json
+``` jsonc
 {
     "ArmorCoverage": {
         // Customize BoP armor protection areas.
