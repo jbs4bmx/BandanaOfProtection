@@ -229,199 +229,224 @@ class Bandana implements IPreSptLoadMod, IPostDBLoadMod
             db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle";
         } else {
             switch ( trueKey ) {
+                case "DevBalaclava": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_balaclava/item_equipment_facecover_balaclava_development.bundle";
+                    break;
+                }
+                case "Balaclava": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_balaclava/item_equipment_facecover_balaclava.bundle";
+                    break;
+                }
+                case "GhostBalaclava": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_balaclavaskull/item_equipment_facecover_balaclavaskull.bundle";
+                    break;
+                }
+                case "BallisticMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_ballistic_mask/item_equipment_facecover_ballistic_mask.bundle";
+                    break;
+                }
+                case "DeathKnightMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_boss_blackknight/item_equipment_facecover_boss_blackknight.bundle";
+                    break;
+                }
+                case "ZryachiyHalloween": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_boss_zryachi_closed/facecover_boss_zryachi_closed_halloween.bundle";
+                    break;
+                }
+                case "ZryachiyBalaclavaClosed": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_boss_zryachi_closed/facecover_boss_zryachi_closed.bundle";
+                    break;
+                }
                 case "HalfMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_buffalo/item_equipment_facecover_buffalo.bundle";
                     break;
                 }
+                case "Rivals2021Balaclava": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_coldgear/item_equipment_facecover_coldgear_twitch.bundle";
+                    break;
+                }
+                case "ColdFearBalaclava": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_coldgear/item_equipment_facecover_coldgear.bundle";
+                    break;
+                }
+                case "RoninRespirator": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_devtac/item_equipment_facecover_devtac_gen2.bundle";
+                    break;
+                }
+                case "RoninBallistic": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_devtac/item_equipment_facecover_devtac.bundle";
+                    break;
+                }
+                case "Respirator": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_gasmask_3m/item_equipment_facecover_gasmask_3m.bundle";
+                    break;
+                }
                 case "GP5GasMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_gasmask_gp5/item_equipment_facecover_gasmask_gp5.bundle";
                     break;
                 }
                 case "GP7GasMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_gasmask_gp7/item_equipment_facecover_gasmask_gp7.bundle";
                     break;
                 }
-                case "Respirator": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_gasmask_3m/item_equipment_facecover_gasmask_3m.bundle";
+                case "OpsCoreGasMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_gasmask_opscore/item_equipment_facecover_gasmask_opscore.bundle";
                     break;
                 }
-                case "DevBalaclava": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_balaclava/item_equipment_facecover_balaclava_development.bundle";
+                case "GloriousEMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_glorious/item_equipment_facecover_glorious.bundle";
                     break;
                 }
                 case "JasonMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_jason/item_equipment_facecover_halloween_jason.bundle";
                     break;
                 }
+                case "FacelessMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_kaonasi/item_equipment_facecover_halloween_kaonasi.bundle";
+                    break;
+                }
                 case "MichealMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_michael/item_equipment_facecover_halloween_micheal.bundle";
                     break;
                 }
+                case "HalloweenSkullMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_skull/item_equipment_facecover_halloween_skull.bundle";
+                    break;
+                }
+                case "SlenderMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_slander/item_equipment_facecover_halloween_slander.bundle";
+                    break;
+                }
+                case "GhoulMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_vampire/item_equipment_facecover_halloween_vampire.bundle";
+                    break;
+                }
+                case "HockeyPlayerCaptain": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_hockey/item_equipment_facecover_hockey_01.bundle";
+                    break;
+                }
+                case "HockeyPlayerBrawler": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_hockey/item_equipment_facecover_hockey_02.bundle";
+                    break;
+                }
+                case "HockeyPlayerQuiet": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_hockey/item_equipment_facecover_hockey_03.bundle";
+                    break;
+                }
+                case "MomexBalaclava": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_nomexbalaclava/item_equipment_facecover_nomexbalaclava.bundle";
+                    break;
+                }
                 case "PestilyMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_pestily/item_equipment_facecover_pestily.bundle";
                     break;
                 }
+                case "BigPipe": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_pipe/item_equipment_facecover_pipe.bundle";
+                    break;
+                }
+                case "TwitchRivals2020Mask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_redflame/item_equipment_facecover_redflame_twitch.bundle";
+                    break;
+                }
+                case "NeopreneMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_redflame/item_equipment_facecover_redflame.bundle";
+                    break;
+                }
+                case "ShatteredMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shatteredmask/item_equipment_facecover_shatteredmask.bundle";
+                    break;
+                }
+                case "TanShemagh": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shemagh_02/item_equipment_facecover_shemagh_02.bundle";
+                    break;
+                }
+                case "GreenShemagh": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shemagh/item_equipment_facecover_shemagh.bundle";
+                    break;
+                }
+                case "TwitchRivals2020HalfMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shroud/item_equipment_facecover_shroud_twitch.bundle";
+                    break;
+                }
+                case "ShroudMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shroud/item_equipment_facecover_shroud.bundle";
+                    break;
+                }
+                case "SkullHalfMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_skull_half_mask/item_equipment_facecover_skull_half_mask.bundle";
+                    break;
+                }
+                case "DeadlySkull": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_skullmask/item_equipment_facecover_skullmask.bundle";
+                    break;
+                }
                 case "SmokeBalaclava": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_smoke/item_equipment_head_smoke.bundle";
                     break;
                 }
+                case "StrikeBallMask": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_strikeball_mask/item_equipment_facecover_strikeball_mask.bundle";
+                    break;
+                }
                 case "TagillaGorilla": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_welding/item_equipment_facecover_welding_gorilla.bundle";
                     break;
                 }
                 case "TagillaUBEY": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_welding/item_equipment_facecover_welding_kill.bundle";
                     break;
                 }
-                case "GhostBalaclava": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_balaclavaskull/item_equipment_facecover_balaclavaskull.bundle";
-                    break;
-                }
-                case "MomexBalaclava": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_nomexbalaclava/item_equipment_facecover_nomexbalaclava.bundle";
-                    break;
-                }
-                case "ColdFearBalaclava": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_coldgear/item_equipment_facecover_coldgear.bundle";
-                    break;
-                }
-                case "Rivals2021Balaclava": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_coldgear/item_equipment_facecover_coldgear_twitch.bundle";
-                    break;
-                }
-                case "Balaclava": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_balaclava/item_equipment_facecover_balaclava.bundle";
-                    break;
-                }
-                case "RoninBallistic": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_devtac/item_equipment_facecover_devtac.bundle";
-                    break;
-                }
-                case "TwitchRivals2020Mask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_redflame/item_equipment_facecover_redflame_twitch.bundle";
-                    break;
-                }
-                case "TwitchRivals2020HalfMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shroud/item_equipment_facecover_shroud_twitch.bundle";
-                    break;
-                }
-                case "GreenShemagh": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shemagh/item_equipment_facecover_shemagh.bundle";
-                    break;
-                }
-                case "TanShemagh": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shemagh_02/item_equipment_facecover_shemagh_02.bundle";
-                    break;
-                }
-                case "ShroudMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shroud/item_equipment_facecover_shroud.bundle";
-                    break;
-                }
-                case "ShatteredMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_shatteredmask/item_equipment_facecover_shatteredmask.bundle";
-                    break;
-                }
-                case "DeadlySkull": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_skullmask/item_equipment_facecover_skullmask.bundle";
-                    break;
-                }
-                case "NeopreneMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_redflame/item_equipment_facecover_redflame.bundle";
-                    break;
-                }
-                case "GhoulMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_vampire/item_equipment_facecover_halloween_vampire.bundle";
-                    break;
-                }
-                case "SlenderMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_slander/item_equipment_facecover_halloween_slander.bundle";
-                    break;
-                }
-                case "FacelessMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_halloween_kaonasi/item_equipment_facecover_halloween_kaonasi.bundle";
-                    break;
-                }
-                case "FakeMustache": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/mustache/item_equipment_mustache.bundle";
-                    break;
-                }
-                case "FakeWhiteBeard": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
+                case "WhiteBeard": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
                     db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_beard/item_beard.bundle";
                     break;
                 }
-                case "BaddiesRedBeard": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_equipment_facecover_beard_red.bundle";
-                    break;
-                }
-                case "BigPipe": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_equipment_facecover_pipe.bundle";
-                    break;
-                }
-                case "HockeyPlayerCaptain": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_equipment_facecover_hockey_01.bundle";
-                    break;
-                }
-                case "HockeyPlayerBrawler": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_equipment_facecover_hockey_02.bundle";
-                    break;
-                }
-                case "HockeyPlayerQuiet": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_equipment_facecover_hockey_03.bundle";
-                    break;
-                }
-                case "DeathKnightMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_equipment_facecover_boss_blackknight.bundle";
-                    break;
-                }
-                case "GloriousEMask": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_equipment_facecover_glorious.bundle";
-                    break;
-                }
-                case "ZryachiyBalaclavaOpen": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/head_boss_zryachi_balaclava_open/item_equipment_head_boss_zryachi_balaclava_open.bundle";
-                    break;
-                }
-                case "ZryachiyBalaclavaClosed": {
-                    logger.info(`[BoP] Setting BoP prefab to selected value: ${trueKey}`)
-                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/facecover_boss_zryachi_closed/facecover_boss_zryachi_closed.bundle";
+                case "RedBeard": {
+                    logger.info(`[BoP] Setting BoP prefab to seelcted value: ${trueKey}`);
+                    db.templates.items["660877b848b061d3eca2579f"]._props.Prefab.path = "assets/content/items/equipment/item_beard/item_equipment_facecover_beard_red.bundle";
                     break;
                 }
                 default: {

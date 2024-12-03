@@ -1,6 +1,6 @@
 {
     "name": "BandanaOfProtection",
-    "version": "310.0.1",
+    "version": "310.0.2",
     "sptVersion": "3.10.*",
     "loadBefore": [],
     "loadAfter": [],
